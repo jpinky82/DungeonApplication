@@ -5,23 +5,89 @@
         //Fields
 
         /*
-         * in life(cannot be more than maxlife)
-         * int maxlife (assign first in ctor)
+         * int life(cannot be more than maxlife)
          * int maxlife (assign first in ctor)
          * string name
-         * int hit chance
+         * int hitChance
          * int block
          */
 
+        private int _life;
+        private int _maxLife;
+        private string _name;
+        private int _hitChance;
+        private int _block;
+
         //Properties - 1 for each field
 
+        public int Life
+        {
+            get { return _life; }
+            set { _life = value; }
+        }
+        public int MaxLife
+        {
+            get { return _maxLife; }
+            set { _maxLife = value; }
+        }
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+        public int HitChance
+        {
+            get { return _hitChance; }
+            set { _hitChance = value; }
+        }
+        public int Block
+        {
+            get { return _block; }
+            set { _block = value; }
+        }
+
+
         //Ctors - 1 fully qualified, 1 default/unqualified
+        
+        //Default
+        public Character() { }
+
+        //Fully Qualified
+        public Character(int maxLife, int life, string name, int hitChance, int block)
+        {
+            MaxLife = maxLife;
+            Life = life;
+            Name = name;
+            HitChance = hitChance;
+            Block = block;
+        }
+
 
         //Methods
         //ToString() override
+        public override string ToString()
+        {
+            return $"Name: {Name}\n" +
+                   $"Current Health: {Life}\n" +
+                   $"Max Health: {MaxLife}\n" +
+                   $"Hit Chance: {HitChance}\n" +
+                   $"Block: {Block}\n";
+        }//end string
 
         //CalcBlock() returns an int -> return Block;
+        public static int CalcBlock(int blk) 
+        {
+            return blk;
+        }
         //CalcHitChance() returns an int -> return HitChance;
+        public static int CalcHitChance(int hit)
+        {
+            return hit;
+        }
         //CalcDamage() returns an int -> return 0;
+        public static int CalcDamage(int dmg)
+        {
+            return dmg;
+        }
     }
 }
