@@ -11,7 +11,7 @@ namespace Dungeon
     {
         static void Main(string[] args)
         {
-            //Build and text the functionality of our Library
+            //Build and test the functionality of our Library
             
             //Build and test a weapon
             Weapon longSword = new Weapon()
@@ -34,9 +34,9 @@ namespace Dungeon
                 Block = 40,
             };
             Console.WriteLine($"{isildur}\n\n" +
-                            $"Block Chance: {Character.CalcBlock(40)}\n" +
-                            $"Hit Chance: {Character.CalcHitChance(20)}\n" +
-                            $"Damage: {Character.CalcDamage(10)}");
+                            $"Block Chance: {Character.CalcBlock(isildur.Block)}\n" +
+                            $"Hit Chance: {Character.CalcHitChance(isildur.HitChance)}\n" +
+                            $"Damage: {Character.CalcDamage(0)}");
         }
     }
 }

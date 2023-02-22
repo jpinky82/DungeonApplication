@@ -25,15 +25,15 @@ namespace DungeonLibrary
         private bool _isTwoHanded;
 
         //Props
-        public int MinDamage
-        {
-            get { return _minDamage; }
-            set { _minDamage = value; }
-        }
         public int MaxDamage
         {
             get { return _maxDamage; }
-            set { _maxDamage = value; }
+            set { _maxDamage = value < 0 ?  0 : value; }
+        }
+        public int MinDamage
+        {
+            get { return _minDamage; }
+            set { _minDamage = value > MaxDamage ? MaxDamage : value; }
         }
         public string Name
         {
