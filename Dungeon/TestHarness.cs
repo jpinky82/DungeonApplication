@@ -20,7 +20,8 @@ namespace Dungeon
                 MaxDamage = 20,
                 MinDamage = 5,
                 BonusHitChance = 30,
-                IsTwoHanded = true
+                IsTwoHanded = true,
+                WeaponType = WeaponType.Sword
             };
             Console.WriteLine(longSword);
 
