@@ -20,16 +20,17 @@
 
         //Properties - 1 for each field
 
-        public int Life
-        {
-            get { return _life; }
-            set { _life = value; }
-        }
         public int MaxLife
         {
             get { return _maxLife; }
             set { _maxLife = value; }
         }
+        public int Life
+        {
+            get { return _life; }
+            set { _life = value <= MaxLife ? value : MaxLife; }
+        }
+
         public string Name
         {
             get { return _name; }
