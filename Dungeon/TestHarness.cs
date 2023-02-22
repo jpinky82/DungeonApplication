@@ -34,9 +34,9 @@ namespace Dungeon
                 Block = 40,
             };
             Console.WriteLine($"{isildur}\n\n" +
-                            $"Block Chance: {Character.CalcBlock(isildur.Block)}\n" +
-                            $"Hit Chance: {Character.CalcHitChance(isildur.HitChance)}\n" +
-                            $"Damage: {Character.CalcDamage(0)}");
+                            $"Block Chance: {isildur.CalcBlock()}\n" +
+                            $"Hit Chance: {isildur.CalcHitChance()}\n" +
+                            $"Damage: {isildur.CalcDamage()}");
         }
     }
 }
