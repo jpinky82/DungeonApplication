@@ -23,6 +23,7 @@ namespace DungeonLibrary
         private string _name;
         private int _bonusHitChance;
         private bool _isTwoHanded;
+        private string _weaponType;
 
         //Props
         public int MaxDamage
@@ -50,6 +51,11 @@ namespace DungeonLibrary
             get { return _isTwoHanded; }
             set { _isTwoHanded = value; }
         }
+        public string WeaponType
+        {
+            get { return _weaponType; }
+            set { _weaponType = value; }
+        }
 
         //CTORS/Constructors
         //1 fq ctor, and 1 unqualified ctor if you want Object Initialization Syntax
@@ -58,13 +64,14 @@ namespace DungeonLibrary
         public Weapon() { }
 
         //fully qualified
-        public Weapon(int maxDamage, int minDamage, string name, int bonusHitChance, bool isTwoHanded)
+        public Weapon(int maxDamage, int minDamage, string name, int bonusHitChance, bool isTwoHanded, string weaponType)
         {
             MaxDamage = maxDamage;
             MinDamage = minDamage;
             Name = name;
             BonusHitChance = bonusHitChance;
             IsTwoHanded = isTwoHanded;
+            WeaponType = weaponType;
         }
 
 
@@ -76,7 +83,8 @@ namespace DungeonLibrary
                    $"Min Damage: {MinDamage}\n" + 
                    $"Max Damage: {MaxDamage}\n" +
                    $"Bonus Hit Chance: {BonusHitChance}\n" +
-                   $"Two Handed?: {(IsTwoHanded ? "Yes" : "No")}\n";
+                   $"Two Handed?: {(IsTwoHanded ? "Yes" : "No")}\n" +
+                   $"Weapon Type: {WeaponType}";
         }
     }
 }
