@@ -76,19 +76,19 @@
         }//end string
 
         //CalcBlock() returns an int -> return Block;
-        public static int CalcBlock(int blk) 
+        public int CalcBlock() 
         {
-            return blk;
+            return Block;
         }
         //CalcHitChance() returns an int -> return HitChance;
-        public static int CalcHitChance(int hit)
+        public int CalcHitChance()
         {
-            return hit;
+            return HitChance;
         }
         //CalcDamage() returns an int -> return 0;
-        public static int CalcDamage(int dmg)
+        public int CalcDamage()
         {
-            return dmg;
+            return 0;
         }
     }
 }
