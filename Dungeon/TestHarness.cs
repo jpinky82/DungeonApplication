@@ -12,32 +12,20 @@ namespace Dungeon
         static void Main(string[] args)
         {
             //Build and test the functionality of our Library
-            
+
             //Build and test a weapon
-            Weapon longSword = new Weapon()
-            {
-                Name = "Andúril",
-                MaxDamage = 20,
-                MinDamage = 5,
-                BonusHitChance = 30,
-                IsTwoHanded = true,
-                WeaponType = WeaponType.Sword
-            };
-            Console.WriteLine(longSword);
+            Weapon w1 = new Weapon(20, 5, "Andúril", 30, true, WeaponType.Sword);
 
             //Build and test a character - include CalcBlock(), CalcHitChance(), CalcDamage()
-            Character isildur = new Character()
-            {
-                Name = "Isildur",
-                Life = 80,
-                MaxLife = 100,
-                HitChance = 10,
-                Block = 40,
-            };
-            Console.WriteLine($"{isildur}\n\n" +
-                            $"Block Chance: {isildur.CalcBlock()}\n" +
-                            $"Hit Chance: {isildur.CalcHitChance()}\n" +
-                            $"Damage: {isildur.CalcDamage()}");
+            Player c1 = new Player(100, "Isildur", 10, 40, Race.Human, w1);
+
+            Console.WriteLine($"{c1}Block Chance: {c1.CalcBlock()}%\n" +
+                            $"Hit Chance: {c1.CalcHitChance()}%\n" +
+                            $"Damage: {c1.CalcDamage()}\n");
+
+            //Build and test a monster
+            Monster m1 = new Monster(80, "Smaug", 20, 30, 40, 10, "Dragon!");
+            Console.WriteLine(m1 + $"Damage Given: " + m1.CalcDamage());
         }
     }
 }

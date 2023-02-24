@@ -1,6 +1,8 @@
 ﻿namespace DungeonLibrary
 {
-    public class Character
+    //"abstract" denotes an "incomplete" class or method.
+    //This tells the program that we will not create any Character objects directly.
+    public abstract class Character
     {
         //Fields
 
@@ -28,7 +30,7 @@
         public int Life
         {
             get { return _life; }
-            set { _life = value <= MaxLife ? value : MaxLife; }
+            set { _life = value > MaxLife ? MaxLife : value; }
         }
 
         public string Name
@@ -54,10 +56,10 @@
         public Character() { }
 
         //Fully Qualified
-        public Character(int maxLife, int life, string name, int hitChance, int block)
+        public Character(int maxLife, string name, int hitChance, int block)
         {
             MaxLife = maxLife;
-            Life = life;
+            Life = maxLife;
             Name = name;
             HitChance = hitChance;
             Block = block;
@@ -68,27 +70,25 @@
         //ToString() override
         public override string ToString()
         {
-            return $"Name: {Name}\n" +
+            return $"\nName: {Name}\n" +
                    $"Current Health: {Life}\n" +
                    $"Max Health: {MaxLife}\n" +
-                   $"Hit Chance: {HitChance}\n" +
+                   $"Hit Chance: {HitChance}%\n" +
                    $"Block: {Block}\n";
         }//end string
 
         //CalcBlock() returns an int -> return Block;
-        public int CalcBlock() 
+        public virtual int CalcBlock() 
         {
             return Block;
         }
         //CalcHitChance() returns an int -> return HitChance;
-        public int CalcHitChance()
+        public virtual int CalcHitChance()
         {
             return HitChance;
         }
         //CalcDamage() returns an int -> return 0;
-        public int CalcDamage()
-        {
-            return 0;
-        }
+        public abstract int CalcDamage();//an abstract just says somewhere down the line,
+                                         //one of the child classes MUST implement this with some functionality.
     }
 }

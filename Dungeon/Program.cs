@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks.Sources;
+﻿using DungeonLibrary;
+using System.Threading.Tasks.Sources;
 
 namespace Dungeon
 {
@@ -17,8 +18,10 @@ namespace Dungeon
             //TODO Variable to keeps scoore
 
             //TODO Weapon creation
+            Weapon w1 = new Weapon(20, 5, "Andúril", 30, true, WeaponType.Sword);
 
             //TODO Player Object Creation
+            Player c1 = new Player(100, "Isildur", 10, 40, Race.Human, w1);
 
             #endregion
 
