@@ -26,7 +26,7 @@ namespace DungeonLibrary
         private WeaponType _type;
 
         //Props
-        
+            
         public int MaxDamage
         {
             get { return _maxDamage; }

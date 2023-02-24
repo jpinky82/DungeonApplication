@@ -16,6 +16,8 @@ namespace Dungeon
             //Build and test a weapon
             Weapon w1 = new Weapon(20, 5, "Andúril", 30, true, WeaponType.Sword);
 
+            Console.WriteLine("\n\n********************************* PLAYER *********************************\n");
+
             //Build and test a character - include CalcBlock(), CalcHitChance(), CalcDamage()
             Player c1 = new Player(100, "Isildur", 10, 40, Race.Human, w1);
 
@@ -23,9 +25,16 @@ namespace Dungeon
                             $"Hit Chance: {c1.CalcHitChance()}%\n" +
                             $"Damage: {c1.CalcDamage()}\n");
 
-            //Build and test a monster
-            Monster m1 = new Monster(80, "Smaug", 20, 30, 40, 10, "Dragon!");
-            Console.WriteLine(m1 + $"Damage Given: " + m1.CalcDamage());
+            Console.WriteLine("\n\n********************************* MONSTER *********************************\n");
+
+            //Call up a Monster
+            Console.WriteLine(Monster.GetMonster());
+            Monster monster = Monster.GetMonster();
+
+            Console.WriteLine("\n\n********************************* COMBAT *********************************\n");
+            Combat.DoBattle(c1, monster);
+
+            Console.ReadLine();
         }
     }
 }
