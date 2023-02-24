@@ -18,7 +18,7 @@ namespace Dungeon
 
             //Possible Expansion - Display a list of pre-created weapons and let them pick one.
             //or. pick one for them randomly.
-            Weapon sword = new Weapon(15, 8, "Long Sword", 10, true, WeaponType.Sword);
+            Weapon sword = new Weapon(8, 1, "Long Sword", 10, true, WeaponType.Sword);
 
             //Potential Expansion - Allow them to enter theri own name.
             //show the mall the possible races and let them pick one.
