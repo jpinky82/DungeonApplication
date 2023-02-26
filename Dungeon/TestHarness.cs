@@ -19,7 +19,7 @@ namespace Dungeon
             Console.WriteLine("\n\n********************************* PLAYER *********************************\n");
 
             //Build and test a character - include CalcBlock(), CalcHitChance(), CalcDamage()
-            Player c1 = new Player(100, "Isildur", 10, 40, Race.Human, w1);
+            Player c1 = new Player("Isildur", 100, 10, 40, Race.Human, w1);
 
             Console.WriteLine($"{c1}Block Chance: {c1.CalcBlock()}%\n" +
                             $"Hit Chance: {c1.CalcHitChance()}%\n" +
