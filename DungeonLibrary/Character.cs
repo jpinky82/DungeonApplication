@@ -15,13 +15,23 @@
          */
 
         private int _life;
-        private int _maxLife;
-        private string _name;
         private int _hitChance;
         private int _block;
+        private int _maxLife;
 
         //Properties - 1 for each field
 
+        public string Name { get; set; } = null!;
+        public int HitChance
+        {
+            get { return _hitChance; }
+            set { _hitChance = value; }
+        }
+        public int Block
+        {
+            get { return _block; }
+            set { _block = value; }
+        }
         public int MaxLife
         {
             get { return _maxLife; }
@@ -33,37 +43,21 @@
             set { _life = value > MaxLife ? MaxLife : value; }
         }
 
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-        public int HitChance
-        {
-            get { return _hitChance; }
-            set { _hitChance = value; }
-        }
-        public int Block
-        {
-            get { return _block; }
-            set { _block = value; }
-        }
-
-
         //Ctors - 1 fully qualified, 1 default/unqualified
         
         //Default
-        public Character() { }
+
 
         //Fully Qualified
-        public Character(int maxLife, string name, int hitChance, int block)
+        public Character(string name, int hitChance, int block, int maxLife)
         {
-            MaxLife = maxLife;
-            Life = maxLife;
             Name = name;
             HitChance = hitChance;
             Block = block;
+            MaxLife = maxLife;
+            Life = maxLife;
         }
+        public Character() { }
 
 
         //Methods
@@ -72,7 +66,7 @@
         {
             return $"\nName: {Name}\n" +
                    $"Current Health: {Life}\n" +
-                   $"Max Health: {MaxLife}\n" +
+                   $"Health: {Life} of {MaxLife}\n" +
                    $"Hit Chance: {HitChance}%\n" +
                    $"Block: {Block}\n";
         }//end string

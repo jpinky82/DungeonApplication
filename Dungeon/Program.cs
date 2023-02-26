@@ -22,7 +22,7 @@ namespace Dungeon
 
             //Potential Expansion - Allow them to enter theri own name.
             //show the mall the possible races and let them pick one.
-            Player player = new(40, "Isildur", 70, 5, Race.Human, sword);
+            Player player = new("Isildur", 65, 8, 70, Race.Human, sword);
 
             #endregion
 
