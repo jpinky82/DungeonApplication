@@ -27,9 +27,9 @@ namespace DungeonLibrary
             #region Potential Expansion - Racial Bonuses
             switch (PlayerRace)
             {
-                case Race.Orc:
+                case Race.Centaur:
                     HitChance += 10;
-                    description = "Orcs are powerfull, fast, but terribly stupid.";
+                    description = "This four legged hybrid is fast and agile.";
                     break;
                 case Race.Human:
                     HitChance += 5;
@@ -41,6 +41,10 @@ namespace DungeonLibrary
                     break;
                 case Race.Dwarf:
                     description = "Dwarves are slow but make up for it with power!";
+                    break;
+                case Race.Gnome:
+                    HitChance += 5;
+                    description = "Dwarves aren't the happiest of creatures but they'll fight tooth and nail when their life is on the line!";
                     break;
             }
             #endregion
