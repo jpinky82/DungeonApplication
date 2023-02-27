@@ -9,8 +9,10 @@ namespace DungeonLibrary
     public enum WeaponType
     {
         Sword,
-        Knife,
-        Projectile,
-        Laser,
+        Bow_Arrow,
+        War_hammer,
+        Crossbow,
+        Katana,
+        Spear
     }
 }
