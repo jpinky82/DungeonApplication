@@ -80,8 +80,7 @@ namespace DungeonLibrary
         //Nicely formatted ToString() override
         public override string ToString()
         {
-            return $"{WeaponType}\n" +
-                   $"Name: {Name}\n" +
+            return $"Name: {Name}\n" +
                    $"Min Damage: {MinDamage}\n" +
                    $"Max Damage: {MaxDamage}\n" +
                    $"Bonus Hit Chance: {BonusHitChance}%\n" +

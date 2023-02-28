@@ -31,7 +31,7 @@ namespace DungeonLibrary
             MinDamage = 1;
             HitChance = 60;
             Block = 3;
-            Description = "Shelob's Minions! Some are translucent and camouflage easily!";
+            Description = "Shelob's Minions! Some are able to camoflage themselves!";
             HasCamo = true;
         }
 

@@ -12,54 +12,40 @@ namespace Dungeon
 
             #region Dragon pic
             Console.Title = "DUNGEON OF DOOM!";
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(@"
-                                        ,   ,
-                                        $,  $,     ,
-                                        ""ss.$ss. .s'
-                                ,     .ss$$$$$$$$$$s,
-                                $. s$$$$$$$$$$$$$$`$$Ss
-                                ""$$$$$$$$$$$$$$$$$$o$$$       ,
-                               s$$$$$$$$$$$$$$$$$$$$$$$$s,  ,s
-                              s$$$$$$$$$""$$$$$$""""""""$$$$$$""$$$$$,
-                              s$$$$$$$$$$s""""$$$$ssssss""$$$$$$$$""
-                             s$$$$$$$$$$'         `""""""ss""$""$s""""
-                             s$$$$$$$$$$,              `""""""""""$  .s$$s
-                             s$$$$$$$$$$$$s,...               `s$$'  `
-                         `ssss$$$$$$$$$$$$$$$$$$$$####s.     .$$""$.   , s-
-                           `""""""""$$$$$$$$$$$$$$$$$$$$#####$$$$$$""     $.$'
-                                 ""$$$$$$$$$$$$$$$$$$$$$####s""""     .$$$|
-                                  ""$$$$$$$$$$$$$$$$$$$$$$$$##s    .$$"" $
-                                   $$""""$$$$$$$$$$$$$$$$$$$$$$$$$$$$$""   `
-                                  $$""  ""$""$$$$$$$$$$$$$$$$$$$$S""""""""'
-                             ,   ,""     '  $$$$$$$$$$$$$$$$####s
-                             $.          .s$$$$$$$$$$$$$$$$$####""
-                 ,           ""$s.   ..ssS$$$$$$$$$$$$$$$$$$$####""
-                 $           .$$$S$$$$$$$$$$$$$$$$$$$$$$$$#####""
-                 Ss     ..sS$$$$$$$$$$$$$$$$$$$$$$$$$$$######""""
-                  ""$$sS$$$$$$$$$$$$$$$$$$$$$$$$$$$########""
-           ,      s$$$$$$$$$$$$$$$$$$$$$$$$#########""""'
-           $    s$$$$$$$$$$$$$$$$$$$$$#######""""'      s'         ,
-           $$..$$$$$$$$$$$$$$$$$$######""'       ....,$$....    ,$
-            ""$$$$$$$$$$$$$$$######""' ,     .sS$$$$$$$$$$$$$$$$s$$
-              $$$$$$$$$$$$#####""     $, .s$$$$$$$$$$$$$$$$$$$$$$$$s.
-   )          $$$$$$$$$$$#####'      `$$$$$$$$$###########$$$$$$$$$$$.
-  ((          $$$$$$$$$$$#####       $$$$$$$$###""       ""####$$$$$$$$$$
-  ) \         $$$$$$$$$$$$####.     $$$$$$###""             ""###$$$$$$$$$   s'
- (   )        $$$$$$$$$$$$$####.   $$$$$###""                ####$$$$$$$$s$$'
- )  ( (       $$""$$$$$$$$$$$#####.$$$$$###'                .###$$$$$$$$$$""
- (  )  )   _,$""   $$$$$$$$$$$$######.$$##'                .###$$$$$$$$$$
- ) (  ( \.         ""$$$$$$$$$$$$$#######,,,.          ..####$$$$$$$$$$$""
-(   )$ )  )        ,$$$$$$$$$$$$$$$$$$####################$$$$$$$$$$$""
-(   ($$  ( \     _sS""  `""$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$S$$,
- )  )$$$s ) )  .      .   `$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$""'  `$$
-  (   $$$Ss/  .$,    .$,,s$$$$$$##S$$$$$$$$$$$$$$$$$$$$$$$$S""""        '
-    \)_$$$$$$$$$$$$$$$$$$$$$$$##""  $$        `$$.        `$$.
-        `""S$$$$$$$$$$$$$$$$$#""      $          `$          `$
-            `""""""""""""""""""""""""""'         '           '           '
+                               <xeee..
+                           ueeeeeu..^""*$e.
+                    ur d$$$$$$$$$$$$$$Nu ""*Nu
+                  d$$$ ""$$$$$$$$$$$$$$$$$$e.""$c
+              u$$c   """"   ^""^**$$$$$$$$$$$$$b.^R:
+            z$$#""""""           `!?$$$$$$$$$$$$$N.^
+          .$P                   ~!R$$$$$$$$$$$$$b
+         x$F                 **$b. '""R).$$$$$$$$$$
+        J^""                           #$$$$$$$$$$$$.
+       z$e                      ..      ""**$$$$$$$$$
+      :$P           .        .$$$$$b.    ..  ""  #$$$$
+      $$            L          ^*$$$$b   ""      4$$$$L
+     4$$            ^u    .e$$$$e.""*$$$N.       @$$$$$
+     $$E            d$$$$$$$$$$$$$$L ""$$$$$  mu $$$$$$F
+     $$&            $$$$$$$$$$$$$$$$N   ""#* * ?$$$$$$$N
+     $$F            '$$$$$$$$$$$$$$$$$bec...z$ $$$$$$$$
+     $$F             `$$$$$$$$$$$$$$$$$$$$$$$$ '$$$$E""$
+     $$                  ^""""""""""""`       ^""*$$$& 9$$$$N
+     k  u$                                  ""$$. ""$$P r
+     4$$$$L                                   ""$. eeeR
+      $$$$$k                                   '$e. .@
+      3$$$$$b                                   '$$$$
+       $$$$$$                                    3$$""
+        $$$$$  dc                                4$F
+         RF** <$$                                J""
+          #bue$$$LJ$$$Nc.                        ""
+           ^$$$$$$$$$$$$$r
+             `""*$$$$$$$$$
 ");
             #endregion
-
-            Console.WriteLine("Welcome to the Dungeon Game!\t\tPress any key to continue.");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write("Welcome to the Dungeon Game!\t\tPress any key to continue.");
             Console.ReadKey();
 
             Console.Clear();
@@ -74,15 +60,17 @@ namespace Dungeon
             Console.Clear();
             //TODO get ascii art text for this menu "Please Select a Race"
 
-           
 
-            Console.Write("\nPlease choose a weapon for your Character:\n" +
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n" +
             "L) Long Sword\n" +
             "B) Bow & Arrow\n" +
             "W) War Hammer\n" +
             "C) Crossbow\n" +
             "K) Katana\n" +
-            "S) Spear\n");
+            "S) Spear\n\n");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write("Please choose a weapon for your Character: ");
 
             ConsoleKey wepChoice = Console.ReadKey(true).Key;
 
@@ -112,7 +100,7 @@ namespace Dungeon
                     userWeapon.Name = "War Hammer";
                     userWeapon.BonusHitChance = 12;
                     userWeapon.IsTwoHanded = false;
-                    userWeapon.WeaponType = WeaponType.War_hammer;
+                    userWeapon.WeaponType = WeaponType.War_Hammer;
                     break;
                 case ConsoleKey.C:
                     userWeapon.MaxDamage = 12;
@@ -120,7 +108,7 @@ namespace Dungeon
                     userWeapon.Name = "Crossbow";
                     userWeapon.BonusHitChance = 5;
                     userWeapon.IsTwoHanded = true;
-                    userWeapon.WeaponType = WeaponType.War_hammer;
+                    userWeapon.WeaponType = WeaponType.Crossbow;
                     break;
                 case ConsoleKey.K:
                     userWeapon.MaxDamage = 12;
@@ -130,17 +118,31 @@ namespace Dungeon
                     userWeapon.IsTwoHanded = false;
                     userWeapon.WeaponType = WeaponType.Katana;
                     break;
+                case ConsoleKey.S:
+                    userWeapon.MaxDamage = 12;
+                    userWeapon.MinDamage = 4;
+                    userWeapon.Name = "Spear";
+                    userWeapon.BonusHitChance = 5;
+                    userWeapon.IsTwoHanded = true;
+                    userWeapon.WeaponType = WeaponType.Spear;
+                    break;
+            }
+
+            if (userWeapon.IsTwoHanded)
+            {
+                userWeapon.BonusHitChance += 10;
             }
 
             Console.Clear();
             //TODO Ascii art for "Select your race"
 
-            Console.Write("\nPlease select a race for your Character:\n" +
+            Console.Write("\n" +
             "C) Centaur\n" +
             "H) Human\n" +
             "E) Elf\n" +
             "D) Dwarf\n" +
-            "G) Gnome\n");
+            "G) Gnome\n\n" +
+            "Please select a race for your Character:");
 
             
             Player userPlayer = new(userName, 70, 5, 40, Race.Human, userWeapon);
@@ -180,22 +182,29 @@ namespace Dungeon
                     userPlayer.PlayerRace = Race.Gnome;
                     break;
             }
-                
+            #endregion
+
+            #region Story Intro
+            Console.Clear();
+            Console.WriteLine("In a far off land known as LandyMcLandia there was the small town of TownyMcTowntown. Both of which were named after an overwhelming, and unfortunate, youth turnout in the Great Renaming Vote of 1272....You can still hear the elders in the saloon going on and on about the disaster....Anyway...\n\nLandyMcLandia is a magical land full of a variety of different species. They all, somehow, speak the same language and get along fairly well despite the occasional grievance. On the outskirts of town lived an extremely wealthy scientist, Dr. Agon.  He kept to himself mostly but had been seen in the town on occassion gathering strange supplies for an experiment.\n\nThe rumors about Dr. Agon experimenting on other animals started 2 years ago. Public opinion swayed drastically against the doctor at that point and, after being openly pressed on the matter by the Mayor, he wasn't seen in town again.\n\n8 months ago, a group of teenagers wondered onto the property. In front of what looks like some kind of dungeon door that leads underground, they found the body of Dr.Agon with a puncture wound through the abdomin. After 2 officers of the peace entered the dungeon and never came out, Mayor Amy Stake has decided to put a call out to all the land.\n\nTo anyone willing to enter the dugeon on the Dr. Agon estate, anything of financial significance on the property will be yours as long as what lies inside is destroyed. The citizens of TownyMcTowntown deserve to feel safe in their homes, WE NEED A HERO!\n\n");
+            Console.WriteLine($"{userName}...YOU...ARE...THAT...HERO!");
+            Console.WriteLine("\nPress any key to continue");
+            Console.ReadKey();
+            Console.Clear();
             #endregion
 
 
-    //Possible Expansion - Display a list of pre-created weapons and let them pick one.
-    //or. pick one for them randomly.
-    //Weapon sword = new Weapon(8, 1, "Long Sword", 10, true, WeaponType.Sword);
+            //Possible Expansion - Display a list of pre-created weapons and let them pick one.
+            //or. pick one for them randomly.
+            //Weapon sword = new Weapon(8, 1, "Long Sword", 10, true, WeaponType.Sword);
 
             //Potential Expansion - Allow them to enter theri own name.
             //show the mall the possible races and let them pick one.
-            
+
 
             //Variable to keeps score and bool to exit dowhile loop
             int score = 0;
             bool exit = false;
-
 
             do
             {
