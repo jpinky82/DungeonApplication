@@ -60,7 +60,7 @@ namespace DungeonLibrary
             //create a string, switch on Player Race and
             //write some description about that race
             
-            return $"Race: {PlayerRace}\n{base.ToString()}\n{description}\n\nWeapon: {EquippedWeapon}";
+            return $"Race: {PlayerRace}\n{base.ToString()}\n{description}\n\nWeapon Info:\n{EquippedWeapon}";
         }
         public override int CalcDamage()
         {

@@ -10,7 +10,7 @@ namespace DungeonLibrary
     {
         Sword,
         Bow_Arrow,
-        War_hammer,
+        War_Hammer,
         Crossbow,
         Katana,
         Spear
