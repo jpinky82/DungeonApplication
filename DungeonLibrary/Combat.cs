@@ -28,6 +28,7 @@ namespace DungeonLibrary
                 Console.WriteLine($"{attacker.Name} hit {defender.Name} for {damageDealt} damage!");
                 Console.ResetColor();
             }
+            
             else//the attacker missed
             {
                 Console.WriteLine($"{attacker.Name} missed!");

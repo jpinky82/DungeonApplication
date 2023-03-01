@@ -8,7 +8,7 @@ namespace Dungeon
     {
         static void Main(string[] args)
         {
-            #region Opening Menu
+            #region Opening Welcome Screen
 
             #region Dragon pic
             Console.Title = "DUNGEON OF DOOM!";
@@ -44,6 +44,7 @@ namespace Dungeon
              `""*$$$$$$$$$
 ");
             #endregion
+
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write("Welcome to the Dungeon Game!\t\tPress any key to continue.");
             Console.ReadKey();
@@ -70,63 +71,42 @@ namespace Dungeon
             "K) Katana\n" +
             "S) Spear\n\n");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("Please choose a weapon for your Character: ");
+            Console.Write("Please choose a weapon for your Weapon: ");
 
             ConsoleKey wepChoice = Console.ReadKey(true).Key;
 
-            Weapon userWeapon = new Weapon(8, 3, "Long Sword", 10, true, WeaponType.Sword);//default weapon
-
+            int weaponIndex=0;
             switch (wepChoice)
             {
                 case ConsoleKey.L:
-                    userWeapon.MaxDamage = 8;
-                    userWeapon.MinDamage = 3;
-                    userWeapon.Name = "Long Sword";
-                    userWeapon.BonusHitChance = 8;
-                    userWeapon.IsTwoHanded = true;
-                    userWeapon.WeaponType = WeaponType.Sword;
+                    weaponIndex = 0;
                     break;
+
                 case ConsoleKey.B:
-                    userWeapon.MaxDamage = 10;
-                    userWeapon.MinDamage = 1;
-                    userWeapon.Name = "Bow & Arrow";
-                    userWeapon.BonusHitChance = 10;
-                    userWeapon.IsTwoHanded = true;
-                    userWeapon.WeaponType = WeaponType.Bow_Arrow;
+                    weaponIndex = 1;
                     break;
+
                 case ConsoleKey.W:
-                    userWeapon.MaxDamage = 8;
-                    userWeapon.MinDamage = 1;
-                    userWeapon.Name = "War Hammer";
-                    userWeapon.BonusHitChance = 12;
-                    userWeapon.IsTwoHanded = false;
-                    userWeapon.WeaponType = WeaponType.War_Hammer;
+                    weaponIndex = 2;
                     break;
+
                 case ConsoleKey.C:
-                    userWeapon.MaxDamage = 12;
-                    userWeapon.MinDamage = 1;
-                    userWeapon.Name = "Crossbow";
-                    userWeapon.BonusHitChance = 5;
-                    userWeapon.IsTwoHanded = true;
-                    userWeapon.WeaponType = WeaponType.Crossbow;
+                    weaponIndex = 3;
                     break;
+
                 case ConsoleKey.K:
-                    userWeapon.MaxDamage = 12;
-                    userWeapon.MinDamage = 4;
-                    userWeapon.Name = "Katana";
-                    userWeapon.BonusHitChance = 5;
-                    userWeapon.IsTwoHanded = false;
-                    userWeapon.WeaponType = WeaponType.Katana;
+                    weaponIndex = 4;
                     break;
+
                 case ConsoleKey.S:
-                    userWeapon.MaxDamage = 12;
-                    userWeapon.MinDamage = 4;
-                    userWeapon.Name = "Spear";
-                    userWeapon.BonusHitChance = 5;
-                    userWeapon.IsTwoHanded = true;
-                    userWeapon.WeaponType = WeaponType.Spear;
+                    weaponIndex = 5;
+                    break;
+                default:
+                    weaponIndex = 0;//default weapon will be sword
                     break;
             }
+
+            Weapon userWeapon = Weapon.GetWeapon(weaponIndex);
 
             if (userWeapon.IsTwoHanded)
             {
@@ -154,30 +134,31 @@ namespace Dungeon
                 case ConsoleKey.C:
                     userPlayer.HitChance = 65;
                     userPlayer.Block = 9;
+                    userPlayer.Life = 50;
                     userPlayer.MaxLife = 50;
                     userPlayer.PlayerRace = Race.Centaur;
                     break;
                 case ConsoleKey.H:
                     userPlayer.HitChance = 70;
                     userPlayer.Block = 5;
-                    userPlayer.MaxLife = 40;
                     userPlayer.PlayerRace = Race.Human;
                     break;
                 case ConsoleKey.E:
                     userPlayer.HitChance = 75;
                     userPlayer.Block = 7;
-                    userPlayer.MaxLife = 38;
                     userPlayer.PlayerRace = Race.Elf;
                     break;
                 case ConsoleKey.D:
                     userPlayer.HitChance = 65;
                     userPlayer.Block = 10;
+                    userPlayer.Life = 50;
                     userPlayer.MaxLife = 50;
                     userPlayer.PlayerRace = Race.Dwarf;
                     break;
                 case ConsoleKey.G:
                     userPlayer.HitChance = 68;
                     userPlayer.Block = 5;
+                    userPlayer.Life = 30;
                     userPlayer.MaxLife = 30;
                     userPlayer.PlayerRace = Race.Gnome;
                     break;
@@ -186,21 +167,18 @@ namespace Dungeon
 
             #region Story Intro
             Console.Clear();
-            Console.WriteLine("In a far off land known as LandyMcLandia there was the small town of TownyMcTowntown. Both of which were named after an overwhelming, and unfortunate, youth turnout in the Great Renaming Vote of 1272....You can still hear the elders in the saloon going on and on about the disaster....Anyway...\n\nLandyMcLandia is a magical land full of a variety of different species. They all, somehow, speak the same language and get along fairly well despite the occasional grievance. On the outskirts of town lived an extremely wealthy scientist, Dr. Agon.  He kept to himself mostly but had been seen in the town on occassion gathering strange supplies for an experiment.\n\nThe rumors about Dr. Agon experimenting on other animals started 2 years ago. Public opinion swayed drastically against the doctor at that point and, after being openly pressed on the matter by the Mayor, he wasn't seen in town again.\n\n8 months ago, a group of teenagers wondered onto the property. In front of what looks like some kind of dungeon door that leads underground, they found the body of Dr.Agon with a puncture wound through the abdomin. After 2 officers of the peace entered the dungeon and never came out, Mayor Amy Stake has decided to put a call out to all the land.\n\nTo anyone willing to enter the dugeon on the Dr. Agon estate, anything of financial significance on the property will be yours as long as what lies inside is destroyed. The citizens of TownyMcTowntown deserve to feel safe in their homes, WE NEED A HERO!\n\n");
+            Console.WriteLine("In a far off land known as LandyMcLandia there was the small town of TownyMcTowntown. Both of which were named after an overwhelming, and unfortunate, youth turnout in the Great Renaming Vote of 1272....You can still hear the elders in the saloon going on and on about the disaster....Anyway...\n\nLandyMcLandia is a magical land full of a variety of different species. They all, somehow, speak the same language and get along fairly well despite the occasional grievance. On the outskirts of town lived an extremely wealthy scientist, Dr. Agon.  He kept to himself mostly but had been seen in the town on occassion gathering strange supplies for an experiment.\n\nThe rumors about Dr. Agon experimenting on other animals started 2 years ago. Public opinion swayed drastically against the doctor at that point and, after being openly pressed on the matter by the Mayor, he wasn't seen in town again.\n\nA little over a month ago, a group of teenagers wondered on to the property. In front of what looks like some kind of dungeon door that leads underground, they found the body of Dr.Agon with a puncture wound through the abdomin. After 2 officers of The Peace entered the dungeon and never came out, Mayor Amy Stake has decided to put a call out to all the land.\n\nTo anyone willing to enter the dugeon on the Dr. Agon estate, anything of financial significance on the property will be yours as long as what lies inside is destroyed. The citizens of TownyMcTowntown deserve to feel safe in their homes, WE NEED A HERO!\n\n");
             Console.WriteLine($"{userName}...YOU...ARE...THAT...HERO!");
-            Console.WriteLine("\nPress any key to continue");
+            Console.Write("\nPress any key to continue. ");
             Console.ReadKey();
             Console.Clear();
             #endregion
 
+            //TODO Move storyline to string and iterate through with for loop and add delay for typwriter effect Thread.Sleep(milliseconds) if character = "." add extra time.
+            ////TODO Try Console.BufferWidth Property to fix the word wrap issue.  May not work with the for loop above. 
 
-            //Possible Expansion - Display a list of pre-created weapons and let them pick one.
-            //or. pick one for them randomly.
-            //Weapon sword = new Weapon(8, 1, "Long Sword", 10, true, WeaponType.Sword);
 
-            //Potential Expansion - Allow them to enter theri own name.
-            //show the mall the possible races and let them pick one.
-
+            Console.WriteLine($"Shortly after arriving in TownyMcTowntown, the Mayor wastes no time and leads you to the dungeon door.  She pats you on the back and exclaims, \"Good Luck!!\" and swiftly scurries off.  You open the door, walk through and close it behind you.  There is a long halway with 2 Doors on either side about halfway down. You pull your {userWeapon.Name} out and walk through the door on the left.");
 
             //Variable to keeps score and bool to exit dowhile loop
             int score = 0;
@@ -208,12 +186,16 @@ namespace Dungeon
 
             do
             {
+
                 //Console.WriteLine("Outer: " + ++outerCount);
                 //Generate a random room
 
                 //Select a random monster to inhabit the room
                 Monster monster = Monster.GetMonster();
-                Console.WriteLine($"In this room {monster.Name}!");
+
+                
+
+                Console.WriteLine($"In the back corner of the room you hear a loud high pitched voice say, \"My name is {monster.Name}, who are you?\"");
                 
                 #region Gameplay Menu Loop
                 bool reload = false;
@@ -226,8 +208,12 @@ namespace Dungeon
                         "A) Attack\n" +
                         "R) Run away\n" +
                         "P) Player Info\n" +
+                        "I) Inventory\n" +
                         "M) Monster Info\n" +
                         "X) Exit\n");
+
+                    Console.WriteLine($"{userName}'s Health: {userPlayer.Life} of {userPlayer.MaxLife}  " +
+                                      $"{monster.Name}'s Health: {monster.Life} of {monster.MaxLife}");
 
                     ConsoleKey userChoice = Console.ReadKey(true).Key;
                     Console.Clear();
@@ -265,6 +251,67 @@ namespace Dungeon
                             //Player info
                             Console.WriteLine("Player Info: ");
                             Console.WriteLine(userPlayer);
+                            Console.WriteLine($"Current Score: {score}");
+                            break;
+
+                        case ConsoleKey.I:
+                            //Inventory
+                            bool exitInventory = false;
+                            do
+                            {
+                                Console.Write("****** INVENTORY ******\n" +
+                                "L) Long Sword\n" +
+                                "B) Bow & Arrow\n" +
+                                "W) War Hammer\n" +
+                                "C) Crossbow\n" +
+                                "K) Katana\n" +
+                                "S) Spear\n" +
+                                "P) Potion\n" +
+                                "E) Exit Inventory\n");
+                                Console.Write("Please choose an item from you inventory: ");
+
+                                ConsoleKey inventoryChoice = Console.ReadKey(true).Key;
+                                switch (inventoryChoice)
+                                
+                                    //TODO - FIGURE OUT WHY INVENTORY DOESN'T CHANGE WHEN IT AN ITEM IS SELECTED HERE.
+
+                                {
+                                    case ConsoleKey.L:
+                                        userWeapon = Weapon.GetWeapon(0);
+                                        Console.Clear();
+                                        break;
+
+                                    case ConsoleKey.B:
+                                        userWeapon = Weapon.GetWeapon(1);
+                                        Console.Clear();
+                                        break;
+
+                                    case ConsoleKey.W:
+                                        userWeapon = Weapon.GetWeapon(2);
+                                        Console.Clear();
+                                        break;
+
+                                    case ConsoleKey.C:
+                                        userWeapon = Weapon.GetWeapon(3);
+                                        Console.Clear();
+                                        break;
+
+                                    case ConsoleKey.K:
+                                        userWeapon = Weapon.GetWeapon(4);
+                                        Console.Clear();
+                                        break;
+
+                                    case ConsoleKey.S:
+                                        userWeapon = Weapon.GetWeapon(5);
+                                        Console.Clear();
+                                        break;
+                                    case ConsoleKey.E:
+                                        exitInventory = true;
+                                        Console.Clear();
+                                        break;
+                                }
+                            }
+                            while (!exitInventory);
                             break;
 
                         case ConsoleKey.M:
@@ -279,8 +326,6 @@ namespace Dungeon
                             Console.WriteLine("No one likes a quitter...");
                             exit = true;
                             //reload = true;
-                            break;
-                        default:
                             break;
                     }//end switch
                     #endregion
