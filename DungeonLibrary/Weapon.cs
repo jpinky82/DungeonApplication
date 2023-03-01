@@ -86,5 +86,25 @@ namespace DungeonLibrary
                    $"Bonus Hit Chance: {BonusHitChance}%\n" +
                    $"Two Handed?: {(IsTwoHanded ? "Yes" : "No")}\n";
         }
+        public static Weapon GetWeapon(int id)
+        {
+            Weapon sword = new(8, 1, "Long Sword", 8, true, WeaponType.Sword);
+            Weapon bowArrow = new(10, 1, "Bow & Arrow", 10, true, WeaponType.Bow_Arrow);
+            Weapon warHammer = new(8, 1, "War Hammer", 12, false, WeaponType.War_Hammer);
+            Weapon crossbow = new(12, 1, "Crossbow", 5, true, WeaponType.Crossbow);
+            Weapon katana = new(12, 4, "Katana", 5, false, WeaponType.Katana);
+            Weapon spear = new(12, 4, "Spear", 5, true, WeaponType.Spear);
+
+            List<Weapon> weapon = new()
+            {
+                sword,
+                bowArrow,
+                warHammer,
+                crossbow,
+                katana,
+                spear
+            };
+            return weapon[id];
+        }
     }
 }

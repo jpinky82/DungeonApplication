@@ -59,6 +59,7 @@ namespace DungeonLibrary
             WhiteWalker m7 = new();
             BabyGiant m8 = new();
             //Add the monsters to a collection
+
             List<Monster> monsters = new()
             {
                 m1,
@@ -70,8 +71,10 @@ namespace DungeonLibrary
                 m7,m7,m7,m7,
                 m8,m8,m8,m8
             };
-            //Pick one at random to place in our dungeon room
+
             return monsters[new Random().Next(monsters.Count)];
+
+            //Pick one at random to place in our dungeon room    
         }
     }
 }

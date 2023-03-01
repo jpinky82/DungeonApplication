@@ -28,23 +28,23 @@ namespace DungeonLibrary
             switch (PlayerRace)
             {
                 case Race.Centaur:
-                    HitChance += 10;
-                    description = "This four legged hybrid is fast and agile.";
+                    HitChance += 5;
+                    description = "This four legged hybrid is fast but not the most agile in close quarter combat.";
                     break;
                 case Race.Human:
-                    HitChance += 5;
+                    HitChance += 10;
                     description = "Humans are cunning, brave creatures.";
                     break;
                 case Race.Elf:
                     HitChance += 15;
-                    description = "You're usually dead before you ever see one";
+                    description = "Elves are fast and agile which makes them a great choice in battle.";
                     break;
                 case Race.Dwarf:
                     description = "Dwarves are slow but make up for it with power!";
                     break;
                 case Race.Gnome:
                     HitChance += 5;
-                    description = "Dwarves aren't the happiest of creatures but they'll fight tooth and nail when their life is on the line!";
+                    description = "Gnomes aren't the happiest of creatures but they'll fight tooth and nail when their life is on the line!";
                     break;
             }
             #endregion
@@ -61,6 +61,9 @@ namespace DungeonLibrary
             //write some description about that race
             
             return $"Race: {PlayerRace}\n{base.ToString()}\n{description}\n\nWeapon Info:\n{EquippedWeapon}";
+
+
+
         }
         public override int CalcDamage()
         {
