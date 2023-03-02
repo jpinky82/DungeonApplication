@@ -50,7 +50,7 @@ namespace DungeonLibrary
         public bool IsTwoHanded
         {
             get { return _isTwoHanded; }
-            set { _isTwoHanded = value; }
+            set { _isTwoHanded = value = true; }
         }
         public WeaponType WeaponType
         {
@@ -86,25 +86,32 @@ namespace DungeonLibrary
                    $"Bonus Hit Chance: {BonusHitChance}%\n" +
                    $"Two Handed?: {(IsTwoHanded ? "Yes" : "No")}\n";
         }
-        public static Weapon GetWeapon(int id)
+        public static Weapon GetWeapon(string choice)
         {
-            Weapon sword = new(8, 1, "Long Sword", 8, true, WeaponType.Sword);
-            Weapon bowArrow = new(10, 1, "Bow & Arrow", 10, true, WeaponType.Bow_Arrow);
-            Weapon warHammer = new(8, 1, "War Hammer", 12, false, WeaponType.War_Hammer);
-            Weapon crossbow = new(12, 1, "Crossbow", 5, true, WeaponType.Crossbow);
-            Weapon katana = new(12, 4, "Katana", 5, false, WeaponType.Katana);
-            Weapon spear = new(12, 4, "Spear", 5, true, WeaponType.Spear);
-
-            List<Weapon> weapon = new()
+            switch (choice)
             {
-                sword,
-                bowArrow,
-                warHammer,
-                crossbow,
-                katana,
-                spear
-            };
-            return weapon[id];
+                case "l":
+                    return new (8, 1, "Long Sword", 8, true, WeaponType.Sword);
+
+                case "b":
+                    return new(10, 1, "Bow & Arrow", 10, true, WeaponType.Bow_Arrow);
+
+                case "w":
+                    return new(8, 1, "War Hammer", 12, false, WeaponType.War_Hammer);
+
+                case "c":
+                    return new(12, 1, "Crossbow", 5, true, WeaponType.Crossbow);
+
+                case "k":
+                    return new(12, 4, "Katana", 5, false, WeaponType.Katana);
+
+                case "s":
+                    return new(12, 4, "Spear", 5, true, WeaponType.Spear);
+
+                default:
+                    return new(8, 1, "Long Sword", 8, true, WeaponType.Sword);//default weapon will be sword
+
+            }
         }
     }
 }

@@ -73,40 +73,8 @@ namespace Dungeon
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write("Please choose a weapon for your Weapon: ");
 
-            ConsoleKey wepChoice = Console.ReadKey(true).Key;
+            Weapon userWeapon = Weapon.GetWeapon(Console.ReadLine());
 
-            int weaponIndex=0;
-            switch (wepChoice)
-            {
-                case ConsoleKey.L:
-                    weaponIndex = 0;
-                    break;
-
-                case ConsoleKey.B:
-                    weaponIndex = 1;
-                    break;
-
-                case ConsoleKey.W:
-                    weaponIndex = 2;
-                    break;
-
-                case ConsoleKey.C:
-                    weaponIndex = 3;
-                    break;
-
-                case ConsoleKey.K:
-                    weaponIndex = 4;
-                    break;
-
-                case ConsoleKey.S:
-                    weaponIndex = 5;
-                    break;
-                default:
-                    weaponIndex = 0;//default weapon will be sword
-                    break;
-            }
-
-            Weapon userWeapon = Weapon.GetWeapon(weaponIndex);
 
             if (userWeapon.IsTwoHanded)
             {
@@ -124,45 +92,48 @@ namespace Dungeon
             "G) Gnome\n\n" +
             "Please select a race for your Character:");
 
-            
-            Player userPlayer = new(userName, 70, 5, 40, Race.Human, userWeapon);
+            char rChoice = Console.ReadLine().ToLower()[0];
 
-            ConsoleKey raceChoice = Console.ReadKey(true).Key;
-            Console.Clear();
-            switch (raceChoice)
-            {
-                case ConsoleKey.C:
-                    userPlayer.HitChance = 65;
-                    userPlayer.Block = 9;
-                    userPlayer.Life = 50;
-                    userPlayer.MaxLife = 50;
-                    userPlayer.PlayerRace = Race.Centaur;
-                    break;
-                case ConsoleKey.H:
-                    userPlayer.HitChance = 70;
-                    userPlayer.Block = 5;
-                    userPlayer.PlayerRace = Race.Human;
-                    break;
-                case ConsoleKey.E:
-                    userPlayer.HitChance = 75;
-                    userPlayer.Block = 7;
-                    userPlayer.PlayerRace = Race.Elf;
-                    break;
-                case ConsoleKey.D:
-                    userPlayer.HitChance = 65;
-                    userPlayer.Block = 10;
-                    userPlayer.Life = 50;
-                    userPlayer.MaxLife = 50;
-                    userPlayer.PlayerRace = Race.Dwarf;
-                    break;
-                case ConsoleKey.G:
-                    userPlayer.HitChance = 68;
-                    userPlayer.Block = 5;
-                    userPlayer.Life = 30;
-                    userPlayer.MaxLife = 30;
-                    userPlayer.PlayerRace = Race.Gnome;
-                    break;
-            }
+            Player userPlayer = Player.GetPlayerRace(rChoice, userName, userWeapon);
+
+            //Player userPlayer = new(userName, 70, 5, 40, Race.Human, userWeapon);
+
+            //ConsoleKey raceChoice = Console.ReadKey(true).Key;
+            //Console.Clear();
+            //switch (raceChoice)
+            //{
+            //    case ConsoleKey.C:
+            //        userPlayer.HitChance = 65;
+            //        userPlayer.Block = 9;
+            //        userPlayer.Life = 50;
+            //        userPlayer.MaxLife = 50;
+            //        userPlayer.PlayerRace = Race.Centaur;
+            //        break;
+            //    case ConsoleKey.H:
+            //        userPlayer.HitChance = 70;
+            //        userPlayer.Block = 5;
+            //        userPlayer.PlayerRace = Race.Human;
+            //        break;
+            //    case ConsoleKey.E:
+            //        userPlayer.HitChance = 75;
+            //        userPlayer.Block = 7;
+            //        userPlayer.PlayerRace = Race.Elf;
+            //        break;
+            //    case ConsoleKey.D:
+            //        userPlayer.HitChance = 65;
+            //        userPlayer.Block = 10;
+            //        userPlayer.Life = 50;
+            //        userPlayer.MaxLife = 50;
+            //        userPlayer.PlayerRace = Race.Dwarf;
+            //        break;
+            //    case ConsoleKey.G:
+            //        userPlayer.HitChance = 68;
+            //        userPlayer.Block = 5;
+            //        userPlayer.Life = 30;
+            //        userPlayer.MaxLife = 30;
+            //        userPlayer.PlayerRace = Race.Gnome;
+            //        break;
+            //}
             #endregion
 
             #region Story Intro
@@ -271,45 +242,45 @@ namespace Dungeon
                                 Console.Write("Please choose an item from you inventory: ");
 
                                 ConsoleKey inventoryChoice = Console.ReadKey(true).Key;
-                                switch (inventoryChoice)
+                                //switch (inventoryChoice)
                                 
-                                    //TODO - FIGURE OUT WHY INVENTORY DOESN'T CHANGE WHEN IT AN ITEM IS SELECTED HERE.
+                                //    //TODO - FIGURE OUT WHY INVENTORY DOESN'T CHANGE WHEN IT AN ITEM IS SELECTED HERE.
 
-                                {
-                                    case ConsoleKey.L:
-                                        userWeapon = Weapon.GetWeapon(0);
-                                        Console.Clear();
-                                        break;
+                                //{
+                                //    case ConsoleKey.L:
+                                //        userWeapon = Weapon.GetWeapon(0);
+                                //        Console.Clear();
+                                //        break;
 
-                                    case ConsoleKey.B:
-                                        userWeapon = Weapon.GetWeapon(1);
-                                        Console.Clear();
-                                        break;
+                                //    case ConsoleKey.B:
+                                //        userWeapon = Weapon.GetWeapon(1);
+                                //        Console.Clear();
+                                //        break;
 
-                                    case ConsoleKey.W:
-                                        userWeapon = Weapon.GetWeapon(2);
-                                        Console.Clear();
-                                        break;
+                                //    case ConsoleKey.W:
+                                //        userWeapon = Weapon.GetWeapon(2);
+                                //        Console.Clear();
+                                //        break;
 
-                                    case ConsoleKey.C:
-                                        userWeapon = Weapon.GetWeapon(3);
-                                        Console.Clear();
-                                        break;
+                                //    case ConsoleKey.C:
+                                //        userWeapon = Weapon.GetWeapon(3);
+                                //        Console.Clear();
+                                //        break;
 
-                                    case ConsoleKey.K:
-                                        userWeapon = Weapon.GetWeapon(4);
-                                        Console.Clear();
-                                        break;
+                                //    case ConsoleKey.K:
+                                //        userWeapon = Weapon.GetWeapon(4);
+                                //        Console.Clear();
+                                //        break;
 
-                                    case ConsoleKey.S:
-                                        userWeapon = Weapon.GetWeapon(5);
-                                        Console.Clear();
-                                        break;
-                                    case ConsoleKey.E:
-                                        exitInventory = true;
-                                        Console.Clear();
-                                        break;
-                                }
+                                //    case ConsoleKey.S:
+                                //        userWeapon = Weapon.GetWeapon(5);
+                                //        Console.Clear();
+                                //        break;
+                                //    case ConsoleKey.E:
+                                //        exitInventory = true;
+                                //        Console.Clear();
+                                //        break;
+                                //}
                             }
                             while (!exitInventory);
                             break;
