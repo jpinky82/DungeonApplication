@@ -18,6 +18,7 @@ namespace DungeonLibrary
         public Weapon EquippedWeapon { get; set; }
 
         //CTORS/Construstors
+        
         public Player(string name, int hitChance, int block, int maxLife, Race playerRace, Weapon equippedWeapon) : base(name, hitChance, block, maxLife)
         {
             
@@ -48,21 +49,16 @@ namespace DungeonLibrary
                     break;
             }
             #endregion
-
         }
 
-
         //Methods
-
-        
+    
         public override string ToString()
         {
             //create a string, switch on Player Race and
             //write some description about that race
             
             return $"Race: {PlayerRace}\n{base.ToString()}\n{description}\n\nWeapon Info:\n{EquippedWeapon}";
-
-
 
         }
         public override int CalcDamage()
@@ -78,6 +74,25 @@ namespace DungeonLibrary
         public override int CalcHitChance()
         {
             return HitChance + EquippedWeapon.BonusHitChance;
+        }
+
+        public static Player GetPlayerRace(char uChoice, string name, Weapon userWeapon)
+        {
+            switch (uChoice)
+            {
+                case 'c':
+                    return new(name, 65, 9, 50, Race.Centaur, userWeapon);
+                case 'h':
+                    return new(name, 70, 5, 40, Race.Human, userWeapon);
+                case 'e':
+                    return new(name, 75, 7, 40, Race.Elf, userWeapon);
+                case 'd':
+                    return new(name, 65, 10, 50, Race.Dwarf, userWeapon);
+                case 'g':
+                    return new(name, 60, 5, 30, Race.Gnome, userWeapon);
+                default:
+                    return new(name, 70, 5, 40, Race.Human, userWeapon);
+            }
         }
     }
 }
