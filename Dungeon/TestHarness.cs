@@ -32,9 +32,9 @@ namespace Dungeon
             Monster monster = Monster.GetMonster();
 
             Console.WriteLine("\n\n********************************* COMBAT *********************************\n");
-            Combat.DoBattle(c1, monster);
+            //Combat.DoBattle(c1, monster);
 
-            Console.ReadLine();
+            //Console.ReadLine();
         }
     }
 }

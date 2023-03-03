@@ -39,11 +39,13 @@ namespace DungeonLibrary
 
         public override int CalcHitChance()
         {
+            int calculatedHit = HitChance;
+
             if (Maneuverable)
             {
-                HitChance += 10;
+                calculatedHit += 10;
             }
-            return HitChance;
+            return calculatedHit;
         }
     }
 }

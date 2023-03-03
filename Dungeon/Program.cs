@@ -1,4 +1,5 @@
 ﻿using DungeonLibrary;
+using System;
 using System.ComponentModel;
 using System.Numerics;
 
@@ -96,44 +97,6 @@ namespace Dungeon
 
             Player userPlayer = Player.GetPlayerRace(rChoice, userName, userWeapon);
 
-            //Player userPlayer = new(userName, 70, 5, 40, Race.Human, userWeapon);
-
-            //ConsoleKey raceChoice = Console.ReadKey(true).Key;
-            //Console.Clear();
-            //switch (raceChoice)
-            //{
-            //    case ConsoleKey.C:
-            //        userPlayer.HitChance = 65;
-            //        userPlayer.Block = 9;
-            //        userPlayer.Life = 50;
-            //        userPlayer.MaxLife = 50;
-            //        userPlayer.PlayerRace = Race.Centaur;
-            //        break;
-            //    case ConsoleKey.H:
-            //        userPlayer.HitChance = 70;
-            //        userPlayer.Block = 5;
-            //        userPlayer.PlayerRace = Race.Human;
-            //        break;
-            //    case ConsoleKey.E:
-            //        userPlayer.HitChance = 75;
-            //        userPlayer.Block = 7;
-            //        userPlayer.PlayerRace = Race.Elf;
-            //        break;
-            //    case ConsoleKey.D:
-            //        userPlayer.HitChance = 65;
-            //        userPlayer.Block = 10;
-            //        userPlayer.Life = 50;
-            //        userPlayer.MaxLife = 50;
-            //        userPlayer.PlayerRace = Race.Dwarf;
-            //        break;
-            //    case ConsoleKey.G:
-            //        userPlayer.HitChance = 68;
-            //        userPlayer.Block = 5;
-            //        userPlayer.Life = 30;
-            //        userPlayer.MaxLife = 30;
-            //        userPlayer.PlayerRace = Race.Gnome;
-            //        break;
-            //}
             #endregion
 
             #region Story Intro
@@ -152,13 +115,15 @@ namespace Dungeon
             Console.WriteLine($"Shortly after arriving in TownyMcTowntown, the Mayor wastes no time and leads you to the dungeon door.  She pats you on the back and exclaims, \"Good Luck!!\" and swiftly scurries off.  You open the door, walk through and close it behind you.  There is a long halway with 2 Doors on either side about halfway down. You pull your {userWeapon.Name} out and walk through the door on the left.");
 
             //Variable to keeps score and bool to exit dowhile loop
+            int healingPotion = 2;
             int score = 0;
             bool exit = false;
-
+            bool shield = false;
+            int shieldNumber = 1;
+            int shieldDefends = 0;
             do
             {
 
-                //Console.WriteLine("Outer: " + ++outerCount);
                 //Generate a random room
 
                 //Select a random monster to inhabit the room
@@ -172,7 +137,7 @@ namespace Dungeon
                 bool reload = false;
                 do
                 {
-                    //Console.WriteLine("Inner: " + ++innerCount);
+                    
                     //Gameplay Menu
                     #region Menu
                     Console.Write("\nPlease choose an action:\n" +
@@ -181,7 +146,7 @@ namespace Dungeon
                         "P) Player Info\n" +
                         "I) Inventory\n" +
                         "M) Monster Info\n" +
-                        "X) Exit\n");
+                        "E) Exit\n");
 
                     Console.WriteLine($"{userName}'s Health: {userPlayer.Life} of {userPlayer.MaxLife}  " +
                                       $"{monster.Name}'s Health: {monster.Life} of {monster.MaxLife}");
@@ -194,7 +159,7 @@ namespace Dungeon
                             //Combat
                             //Potential Expansion : weapon/race bonus attack
                             //if race == darkelf -> player.DoAttack(monster)
-                            Combat.DoBattle(userPlayer, monster);
+                            Combat.DoBattle(userPlayer, shield, monster);
                             //check if the monster is dead
                             if (monster.Life <= 0)
                             {
@@ -207,7 +172,19 @@ namespace Dungeon
 
                                 score++;
                             }
-                            break;
+
+                            if (shield && shieldDefends == 9)
+                            {
+                                shieldDefends = 0;
+                                shieldNumber--;
+                                shield = false;
+
+                            }else if (shield)
+                             {
+                                shieldDefends++;
+                             }
+
+                             break;
 
                         case ConsoleKey.R:
                             //TODO Attack of Opportunity
@@ -230,6 +207,7 @@ namespace Dungeon
                             bool exitInventory = false;
                             do
                             {
+                                Console.Clear();
                                 Console.Write("****** INVENTORY ******\n" +
                                 "L) Long Sword\n" +
                                 "B) Bow & Arrow\n" +
@@ -237,50 +215,244 @@ namespace Dungeon
                                 "C) Crossbow\n" +
                                 "K) Katana\n" +
                                 "S) Spear\n" +
-                                "P) Potion\n" +
+                                "H) Healing Potion\n" +
+                                "D) Shield\n" +
                                 "E) Exit Inventory\n");
-                                Console.Write("Please choose an item from you inventory: ");
+                                Console.Write("Please choose an item from your inventory: ");
 
                                 ConsoleKey inventoryChoice = Console.ReadKey(true).Key;
-                                //switch (inventoryChoice)
-                                
-                                //    //TODO - FIGURE OUT WHY INVENTORY DOESN'T CHANGE WHEN IT AN ITEM IS SELECTED HERE.
+                                switch (inventoryChoice)
+                                {
+                                    case ConsoleKey.L:
+                                        userPlayer.EquippedWeapon = Weapon.GetWeapon("l");
+                                        Console.Clear();
+                                        #region Long Sword Change
+                                        Console.WriteLine(@"
 
-                                //{
-                                //    case ConsoleKey.L:
-                                //        userWeapon = Weapon.GetWeapon(0);
-                                //        Console.Clear();
-                                //        break;
+*****************************************************
+*                                                   *
+*  Equipped Weapon has been changed to Long Sword!  *          
+*                                                   *
+*****************************************************
 
-                                //    case ConsoleKey.B:
-                                //        userWeapon = Weapon.GetWeapon(1);
-                                //        Console.Clear();
-                                //        break;
+");
+                                        Console.Write("Press any key to Continue");
+                                        Console.ReadKey();
+                                        #endregion
+                                        break;
 
-                                //    case ConsoleKey.W:
-                                //        userWeapon = Weapon.GetWeapon(2);
-                                //        Console.Clear();
-                                //        break;
+                                    case ConsoleKey.B:
+                                        userPlayer.EquippedWeapon = Weapon.GetWeapon("b");
+                                        Console.Clear();
+                                        #region Bow & Arrow Change
+                                        Console.WriteLine(@"
 
-                                //    case ConsoleKey.C:
-                                //        userWeapon = Weapon.GetWeapon(3);
-                                //        Console.Clear();
-                                //        break;
+******************************************************
+*                                                    *
+*  Equipped Weapon has been changed to Bow & Arrow!  *          
+*                                                    *
+******************************************************
 
-                                //    case ConsoleKey.K:
-                                //        userWeapon = Weapon.GetWeapon(4);
-                                //        Console.Clear();
-                                //        break;
+");
+                                        Console.Write("Press any key to Continue");
+                                        Console.ReadKey();
+                                        #endregion
+                                        break;
 
-                                //    case ConsoleKey.S:
-                                //        userWeapon = Weapon.GetWeapon(5);
-                                //        Console.Clear();
-                                //        break;
-                                //    case ConsoleKey.E:
-                                //        exitInventory = true;
-                                //        Console.Clear();
-                                //        break;
-                                //}
+                                    case ConsoleKey.W:
+                                        userPlayer.EquippedWeapon = Weapon.GetWeapon("w");
+                                        Console.Clear();
+                                        #region War Hammer
+                                        Console.WriteLine(@"
+
+*****************************************************
+*                                                   *
+*  Equipped Weapon has been changed to War Hammer!  *          
+*                                                   *
+*****************************************************
+
+");
+                                        Console.Write("Press any key to Continue");
+                                        Console.ReadKey();
+                                        #endregion
+                                        break;
+
+                                    case ConsoleKey.C:
+                                        userPlayer.EquippedWeapon = Weapon.GetWeapon("c");
+                                        Console.Clear();
+                                        #region Crossbow Change
+                                        Console.WriteLine(@"
+
+*****************************************************
+*                                                   *
+*   Equipped Weapon has been changed to Crossbow!   *          
+*                                                   *
+*****************************************************
+
+");
+                                        Console.Write("Press any key to Continue");
+                                        Console.ReadKey();
+                                        #endregion
+                                        break;
+
+                                    case ConsoleKey.K:
+                                        userPlayer.EquippedWeapon = Weapon.GetWeapon("k");
+                                        Console.Clear();
+                                        #region Katana Change
+                                        Console.WriteLine(@"
+
+*****************************************************
+*                                                   *
+*    Equipped Weapon has been changed to Katana!    *          
+*                                                   *
+*****************************************************
+
+");
+                                        Console.Write("Press any key to Continue");
+                                        Console.ReadKey();
+                                        #endregion
+                                        break;
+
+                                    case ConsoleKey.S:
+                                        userPlayer.EquippedWeapon = Weapon.GetWeapon("s");
+                                        Console.Clear();
+                                        #region Spear Change
+                                        Console.WriteLine(@"
+
+*****************************************************
+*                                                   *
+*    Equipped Weapon has been changed to Spear!     *          
+*                                                   *
+*****************************************************
+
+");
+                                        Console.Write("Press any key to Continue");
+                                        Console.ReadKey();
+                                        #endregion
+                                        break;
+
+                                    case ConsoleKey.H:
+                                        Console.Clear();
+                                        #region Healing Potions Menu
+                                        Console.WriteLine(@"
+*****************************************************
+*                                                   *
+*                 Healing Potions!                  *          
+*                                                   *
+*****************************************************
+");
+                                        Console.WriteLine($"Current Healing Potion Count: {healingPotion}");
+                                        Console.WriteLine($"Current Health: {userPlayer.Life} of {userPlayer.MaxLife}\n\n");
+                                        if (healingPotion == 0)
+                                        {
+                                            Console.WriteLine("Sorry but you don't have any Healing Potions\n");
+                                        }
+                                        else if (userPlayer.Life == userPlayer.MaxLife)
+                                        {
+                                            Console.WriteLine("You're health is already at it's Maximum Level, you don't need a Healing Potion.\nGet out there and Fight!\n");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine($"You currently have " + healingPotion + " Healing Potion" + (healingPotion == 1 ? "." : "s.\n"));
+                                            Console.WriteLine("Each Healing Potion will fully regenerate your health!\n");
+                                            Console.Write("Would you like to use one? Y/N :");
+                                            ConsoleKey potionChoice = Console.ReadKey(true).Key;
+                                            
+                                            if (potionChoice == ConsoleKey.Y)
+                                            {
+                                                userPlayer.Life = userPlayer.MaxLife;
+                                                healingPotion--;
+
+                                                Console.WriteLine($"\n\nYou're Health is now {userPlayer.Life} of {userPlayer.MaxLife}\n" +
+                                                    $"You have " + healingPotion + " Healing Potion" + (healingPotion == 1 ? " " : "s ") + "remaining.\n\n");
+                                            }
+                                        }
+                                        Console.Write("\nPress any key to Continue");
+                                        Console.ReadKey();
+                                        #endregion
+                                        break;
+                                    case ConsoleKey.D:
+                                        Console.Clear();
+                                        #region Shields Menu
+                                        Console.WriteLine(@"
+*****************************************************
+*                                                   *
+*                     Shields!                      *          
+*                                                   *
+*****************************************************
+");
+                                        Console.WriteLine(shield ? "A SHIELD IS CURRENTLY ENABLED!" : "No shield is currently enabled");
+                                        Console.WriteLine($"\nTotal Number Of Shields: {shieldNumber}");
+                                        Console.WriteLine($"\nAttacks left on Current Shield: " + (shieldNumber == 0 ? 0 : (10 - shieldDefends)));
+                                        Console.WriteLine(@"
+
+***************************************************************
+*                                                             *
+*   Once a shield is enabled, it can withstand 10 attacks!    *
+*   Once a shield is exhausted,                               *
+*       1) Your shield protection will end.                   *
+*       2) The 'Total Number of Shields' will reduce by 1.    *
+*       3) The 'Attacks left on Current Shield' will always   * 
+*          show how many attacks are left on the current      *
+*          Shield until all Shields are exhausted.            *
+*                                                             *
+***************************************************************
+");
+                                        if (shieldNumber > 0 && !shield)
+                                        {
+                                            Console.WriteLine("Would you like to activate your shield? (Y/N): ");
+                                            ConsoleKey activeChoice = Console.ReadKey(true).Key;
+
+                                            if (activeChoice == ConsoleKey.Y)
+                                            {
+                                                shield = true;
+                                                Console.Clear();
+                                                Console.WriteLine(@"
+
+*****************************************************
+*                                                   *
+*                 SHIELD ACTIVATED!                 *          
+*                                                   *
+*****************************************************
+
+");
+                                            }
+
+                                        }else if (shield)
+                                        {
+                                            Console.WriteLine("Would you like to deactivate your shield? (Y/N): ");
+                                            ConsoleKey deactiveChoice = Console.ReadKey(true).Key;
+
+                                            if (deactiveChoice == ConsoleKey.Y)
+                                            {
+                                                shield = false;
+                                                Console.Clear();
+                                                Console.WriteLine(@"
+
+*****************************************************
+*                                                   *
+*                SHIELD DEACTIVATED!                *          
+*                                                   *
+*****************************************************
+
+");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("You don't have any Shields to activate right now.");
+                                        }
+
+                                        Console.Write("Press any key to Continue");
+                                        Console.ReadKey();
+                                        #endregion
+                                        break;
+
+                                    case ConsoleKey.E:
+                                        exitInventory = true;
+                                        Console.Clear();
+                                        break;
+                                }
                             }
                             while (!exitInventory);
                             break;
@@ -291,7 +463,6 @@ namespace Dungeon
                             Console.WriteLine(monster);
                             break;
 
-                        case ConsoleKey.X:
                         case ConsoleKey.E:
                         case ConsoleKey.Escape:
                             Console.WriteLine("No one likes a quitter...");
@@ -306,7 +477,6 @@ namespace Dungeon
                         Console.WriteLine("Dude...you died!\a");
                         exit = true;
                     }
-
                 } while (!reload && !exit); //if either exit or reload is true, the inner loop will exit.
                 #endregion
             } while (!exit);//if exit is true, the outer loop willl exit as well.
