@@ -44,12 +44,15 @@ namespace DungeonLibrary
 
         public override int CalcBlock()
         {
-            if (HasCamo)
-            {
-                Block += 10;
-            }
-            
-            return Block;
+
+                int calculatedBlock = Block;
+
+                if (HasCamo)
+                {
+                    calculatedBlock += 10;
+                }
+
+                return calculatedBlock;
         }
 
     }

@@ -38,13 +38,17 @@ namespace DungeonLibrary
 
         //look at doing an initiative value to decide who goes first
 
-        public static void DoBattle(Player player, Monster monster)
+        public static void DoBattle(Player player,bool shield, Monster monster)
         {
             DoAttack(player, monster);
             //If the Monster survives, then they can attack
-            if (monster.Life > 0)
+            if (monster.Life > 0 && !shield)
             {
                 DoAttack(monster, player);
+            }
+            else
+            {
+                Console.WriteLine($"{monster.Name} missed!");
             }
         }
     }
