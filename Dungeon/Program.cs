@@ -112,22 +112,125 @@ namespace Dungeon
             ////TODO Try Console.BufferWidth Property to fix the word wrap issue.  May not work with the for loop above. 
 
 
-            Console.WriteLine($"Shortly after arriving in TownyMcTowntown, the Mayor wastes no time and leads you to the dungeon door.  She pats you on the back and exclaims, \"Good Luck!!\" and swiftly scurries off.  You open the door, walk through and close it behind you.  There is a long halway with 2 Doors on either side about halfway down. You pull your {userWeapon.Name} out and walk through the door on the left.");
+            Console.WriteLine($"Shortly after arriving in TownyMcTowntown, the Mayor wastes no time and leads you to the dungeon door.  She pats you on the back and exclaims, \"Good Luck!!\" and swiftly scurries off.  You open the door, pull out your {userWeapon.Name}, walk through the entrance.\n");
+
+
+            //Pre-Loading Dungeon Rooms
+            DungeonRoom room1 = DungeonRoom.GetDungeonRoom(1);
+            DungeonRoom room2 = DungeonRoom.GetDungeonRoom(2);
+            DungeonRoom room3 = DungeonRoom.GetDungeonRoom(3);
+            DungeonRoom room4 = DungeonRoom.GetDungeonRoom(4);
+            DungeonRoom room5 = DungeonRoom.GetDungeonRoom(5);
+            DungeonRoom room6 = DungeonRoom.GetDungeonRoom(6);
+            DungeonRoom room7 = DungeonRoom.GetDungeonRoom(7);
+            DungeonRoom room8 = DungeonRoom.GetDungeonRoom(8);
+
+            //Pre-Loading the first Boss Monster
+            Monster monster = Monster.GetBossMonster(1);
+
 
             //Variable to keeps score and bool to exit dowhile loop
-            int healingPotion = 2;
-            int score = 0;
             bool exit = false;
-            bool shield = false;
-            int shieldNumber = 1;
-            int shieldDefends = 0;
+            byte currentLevel = 1;
+            bool levelSelectExit = false;
             do
             {
 
-                //Generate a random room
+                //Generate first Monster (for scope)
+
+
+                //Room switch DoWhile
+                do
+                {
+                    //There are 8 rooms in this dungeon.  Players have the ability to move back and forth between rooms
+                    switch (currentLevel)
+                    {
+                        //Each Room has a switch of it's own so each time they come back, it will be the same as they left it.
+                        case 1:
+                            switch (room1.NumOfVisits)
+                            {
+                                case 1:
+                                    Console.WriteLine(room1.NotVisitedMessage);
+                                    levelSelectExit = true;
+                                    room1.NumOfVisits++;
+                                    monster = Monster.GetBossMonster(1);
+                                    break;
+
+                                case 2:
+                                    userPlayer.PlayerShield.Count++;
+                                    userPlayer.Potions++;
+                                    userPlayer.Gold += 600;
+                                    room1.NumOfVisits++;
+
+                                    Console.Clear();
+                                    Console.WriteLine("You stand over the dead spider terrified at what just happened.  You turn to walk out the door but then see the treasure on the back wall of the room. The desire to leave instantly vanishes as you investigate and realized you just picked up a Healing Potion, Shield, and 600 gold coins!\n\n");
+
+                                    Console.Write("As you're looking at the back wall, you have noticed there are 2 doors on your left and right.\n\n" +
+                                                  "Which door do you choose? (L/R)");
+                                    ConsoleKey userChoice = Console.ReadKey(true).Key;
+
+                                    if (userChoice == ConsoleKey.R)
+                                    {
+                                        currentLevel = 3;
+                                        Console.WriteLine("You open the door to the right and walk through.");
+                                    }
+                                    else
+                                    {
+                                        currentLevel = 2;
+                                        Console.WriteLine("You open the door to the left and walk through.");
+                                    }
+                                    break;
+
+                                case >= 3:
+                                    if(room1.NumOfVisits % 2 != 0)
+                                    {
+                                        room1.NumOfVisits++;
+                                        Console.WriteLine(room1.HasVisitedMessage);
+                                        Console.WriteLine("\nYou hear something coming towards you!\n");
+                                        monster = Monster.GetBabyMonster();
+                                        levelSelectExit = true;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"After quickly disposing of {monster.Name}, you look around at your exits\nAgain looking at the back wall, you can exit the dungeon by turning around and walking out the door behind or there's a door to your left and one to your right.");
+                                        Console.Write("Which direction do you choose?  (E)xit, (L)eft, or (R)ight");
+                                        ConsoleKey userRm1Choice = Console.ReadKey(true).Key;
+                                        if (userRm1Choice == ConsoleKey.R)
+                                        {
+                                            currentLevel = 3;
+                                            Console.WriteLine("You open the door to the right and walk through.");
+                                        }
+                                        else if(userRm1Choice == ConsoleKey.L)
+                                        {
+                                            currentLevel = 2;
+                                            Console.WriteLine("You open the door to the left and walk through.");
+                                        }
+                                        else
+                                        {
+                                            levelSelectExit = true;
+                                            exit = true;//TODO NEED TO TURN GAMEPLAY MENU LOOP INTO WHILE LOOP BASED ON WHETHER EXIT IS FALSE.
+                                        }
+                                        break;
+
+                                    }
+                                    break;
+                            
+                            }//end Level 1 Switch
+                            break;
+                    }//end Level Switch
+                } while (!levelSelectExit);
+                levelSelectExit = false;
+                
+               
+                
+                
+
+
+
 
                 //Select a random monster to inhabit the room
-                Monster monster = Monster.GetMonster();
+                //Monster monster = Monster.GetBabyMonster();
+                
 
                 
 
@@ -159,7 +262,7 @@ namespace Dungeon
                             //Combat
                             //Potential Expansion : weapon/race bonus attack
                             //if race == darkelf -> player.DoAttack(monster)
-                            Combat.DoBattle(userPlayer, shield, monster);
+                            Combat.DoBattle(userPlayer, userPlayer.PlayerShield.ShieldActive, monster);
                             //check if the monster is dead
                             if (monster.Life <= 0)
                             {
@@ -170,18 +273,18 @@ namespace Dungeon
                                 //flip the inner-loop bool to true
                                 reload = true;
 
-                                score++;
+                                userPlayer.Score++;
                             }
 
-                            if (shield && shieldDefends == 9)
+                            if (userPlayer.PlayerShield.ShieldActive && userPlayer.PlayerShield.AttacksGiven == 9)
                             {
-                                shieldDefends = 0;
-                                shieldNumber--;
-                                shield = false;
+                                userPlayer.PlayerShield.AttacksGiven = 0;
+                                userPlayer.PlayerShield.Count--;
+                                userPlayer.PlayerShield.ShieldActive = false;
 
-                            }else if (shield)
+                            }else if (userPlayer.PlayerShield.ShieldActive)
                              {
-                                shieldDefends++;
+                                userPlayer.PlayerShield.AttacksGiven++;
                              }
 
                              break;
@@ -199,7 +302,6 @@ namespace Dungeon
                             //Player info
                             Console.WriteLine("Player Info: ");
                             Console.WriteLine(userPlayer);
-                            Console.WriteLine($"Current Score: {score}");
                             break;
 
                         case ConsoleKey.I:
@@ -341,9 +443,9 @@ namespace Dungeon
 *                                                   *
 *****************************************************
 ");
-                                        Console.WriteLine($"Current Healing Potion Count: {healingPotion}");
+                                        Console.WriteLine($"Current Healing Potion Count: {userPlayer.Potions}");
                                         Console.WriteLine($"Current Health: {userPlayer.Life} of {userPlayer.MaxLife}\n\n");
-                                        if (healingPotion == 0)
+                                        if (userPlayer.Potions == 0)
                                         {
                                             Console.WriteLine("Sorry but you don't have any Healing Potions\n");
                                         }
@@ -353,7 +455,7 @@ namespace Dungeon
                                         }
                                         else
                                         {
-                                            Console.WriteLine($"You currently have " + healingPotion + " Healing Potion" + (healingPotion == 1 ? "." : "s.\n"));
+                                            Console.WriteLine($"You currently have {userPlayer.Potions} Healing Potion" + (userPlayer.Potions == 1 ? "." : "s.\n"));
                                             Console.WriteLine("Each Healing Potion will fully regenerate your health!\n");
                                             Console.Write("Would you like to use one? Y/N :");
                                             ConsoleKey potionChoice = Console.ReadKey(true).Key;
@@ -361,10 +463,10 @@ namespace Dungeon
                                             if (potionChoice == ConsoleKey.Y)
                                             {
                                                 userPlayer.Life = userPlayer.MaxLife;
-                                                healingPotion--;
+                                                userPlayer.Potions--;
 
                                                 Console.WriteLine($"\n\nYou're Health is now {userPlayer.Life} of {userPlayer.MaxLife}\n" +
-                                                    $"You have " + healingPotion + " Healing Potion" + (healingPotion == 1 ? " " : "s ") + "remaining.\n\n");
+                                                    $"You have {userPlayer.Potions} Healing Potion" + (userPlayer.Potions == 1 ? " " : "s ") + "remaining.\n\n");
                                             }
                                         }
                                         Console.Write("\nPress any key to Continue");
@@ -381,9 +483,7 @@ namespace Dungeon
 *                                                   *
 *****************************************************
 ");
-                                        Console.WriteLine(shield ? "A SHIELD IS CURRENTLY ENABLED!" : "No shield is currently enabled");
-                                        Console.WriteLine($"\nTotal Number Of Shields: {shieldNumber}");
-                                        Console.WriteLine($"\nAttacks left on Current Shield: " + (shieldNumber == 0 ? 0 : (10 - shieldDefends)));
+                                        Console.WriteLine(userPlayer.PlayerShield);
                                         Console.WriteLine(@"
 
 ***************************************************************
@@ -392,20 +492,21 @@ namespace Dungeon
 *   Once a shield is exhausted,                               *
 *       1) Your shield protection will end.                   *
 *       2) The 'Total Number of Shields' will reduce by 1.    *
-*       3) The 'Attacks left on Current Shield' will always   * 
-*          show how many attacks are left on the current      *
-*          Shield until all Shields are exhausted.            *
+*                                                             *
+*   The 'Attacks left on Current Shield' will always show     * 
+*   how many attacks are left on the current Shield until     *
+*   all Shields are exhausted.                                *
 *                                                             *
 ***************************************************************
 ");
-                                        if (shieldNumber > 0 && !shield)
+                                        if (userPlayer.PlayerShield.Count > 0 && !userPlayer.PlayerShield.ShieldActive)
                                         {
                                             Console.WriteLine("Would you like to activate your shield? (Y/N): ");
                                             ConsoleKey activeChoice = Console.ReadKey(true).Key;
 
                                             if (activeChoice == ConsoleKey.Y)
                                             {
-                                                shield = true;
+                                                userPlayer.PlayerShield.ShieldActive = true;
                                                 Console.Clear();
                                                 Console.WriteLine(@"
 
@@ -418,14 +519,14 @@ namespace Dungeon
 ");
                                             }
 
-                                        }else if (shield)
+                                        }else if (userPlayer.PlayerShield.ShieldActive)
                                         {
                                             Console.WriteLine("Would you like to deactivate your shield? (Y/N): ");
                                             ConsoleKey deactiveChoice = Console.ReadKey(true).Key;
 
                                             if (deactiveChoice == ConsoleKey.Y)
                                             {
-                                                shield = false;
+                                                userPlayer.PlayerShield.ShieldActive = false;
                                                 Console.Clear();
                                                 Console.WriteLine(@"
 
@@ -482,30 +583,43 @@ namespace Dungeon
             } while (!exit);//if exit is true, the outer loop willl exit as well.
 
             //Show the score
-            Console.WriteLine("You defeated " + score + " monster" + (score == 1 ? "." : "s."));
+            Console.WriteLine("You defeated " + userPlayer.Score + " monster" + (userPlayer.Score == 1 ? "." : "s."));
 
             #endregion
         }//end Main()
 
-        private static string GetRoom()
-        {
-            string[] rooms =
-            {
-                "1", "2", "3", "4", "5"
-            };
+        //private static string GetRoom(byte room, bool monsterStatus)
+        //{
+        //    string[] rooms =
+        //    {
+        //        "1", "2", "3", "4", "5"
+        //    };
 
-            //Random rand = new Random();
+        //    switch (room)
+        //    {
+        //        case 1:
+                
+        //            if (monsterStatus)
+        //            {
+        //                Console.WriteLine("You enter a long, semi lit and dungy, hallway. A pair of eyes appear in the darkness ahead. As they get bigger, you realize it's racing at you to attack!");
 
-            //int index = rand.Next(rooms.Length);
+        //            }
+        //           break;
+        //    }
 
-            //string room = rooms[index];
+        //    //Random rand = new Random();
 
-            //return room;
+        //    //int index = rand.Next(rooms.Length);
 
-            //refactor from commented code above
-            return rooms[new Random().Next(rooms.Length)];
+        //    //string room = rooms[index];
 
-        }//end GetRoom()
+        //    //return room;
+
+        //    //refactor from commented code above
+        //    return rooms[new Random().Next(rooms.Length)];
+
+        //}//end GetRoom()
+
 
     }//end class
 }//end namespace

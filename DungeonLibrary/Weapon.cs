@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DungeonLibrary
 {
     //Make it public!
-    public class Weapon
+    public class Weapon : InventoryItem
     {
         //Fields
         /*
@@ -23,7 +23,6 @@ namespace DungeonLibrary
         private string _name;
         private int _bonusHitChance;
         private bool _isTwoHanded;
-        private WeaponType _type;
 
         //Props
             
@@ -52,27 +51,21 @@ namespace DungeonLibrary
             get { return _isTwoHanded; }
             set { _isTwoHanded = value = true; }
         }
-        public WeaponType WeaponType
-        {
-            get { return _type; }
-            set { _type = value; }
-        }
+
 
         //CTORS/Constructors
         //1 fq ctor, and 1 unqualified ctor if you want Object Initialization Syntax
 
         //Unqualified ctor
-        public Weapon() { }
 
         //fully qualified
-        public Weapon(int maxDamage, int minDamage, string name, int bonusHitChance, bool isTwoHanded, WeaponType type)
+        public Weapon(Inventory item, int maxDamage, int minDamage, string name, int bonusHitChance, bool isTwoHanded) : base(item)
         {
             MaxDamage = maxDamage;
             MinDamage = minDamage;
             Name = name;
             BonusHitChance = bonusHitChance;
             IsTwoHanded = isTwoHanded;
-            WeaponType = type;
         }
 
 
@@ -91,25 +84,25 @@ namespace DungeonLibrary
             switch (choice)
             {
                 case "l":
-                    return new (8, 1, "Long Sword", 8, true, WeaponType.Sword);
+                    return new (Inventory.Sword, 8, 1, "Long Sword", 8, true);
 
                 case "b":
-                    return new(10, 1, "Bow & Arrow", 10, true, WeaponType.Bow_Arrow);
+                    return new(Inventory.Bow_Arrow,10, 1, "Bow & Arrow", 10, true);
 
                 case "w":
-                    return new(8, 1, "War Hammer", 12, false, WeaponType.War_Hammer);
+                    return new(Inventory.War_Hammer, 8, 1, "War Hammer", 12, false);
 
                 case "c":
-                    return new(12, 1, "Crossbow", 5, true, WeaponType.Crossbow);
+                    return new(Inventory.Crossbow, 12, 1, "Crossbow", 5, true);
 
                 case "k":
-                    return new(12, 4, "Katana", 5, false, WeaponType.Katana);
+                    return new(Inventory.Katana, 12, 4, "Katana", 5, false);
 
                 case "s":
-                    return new(12, 4, "Spear", 5, true, WeaponType.Spear);
+                    return new(Inventory.Spear, 12, 4, "Spear", 5, true);
 
                 default:
-                    return new(8, 1, "Long Sword", 8, true, WeaponType.Sword);//default weapon will be sword
+                    return new(Inventory.Sword, 8, 1, "Long Sword", 8, true);//default weapon will be sword
 
             }
         }

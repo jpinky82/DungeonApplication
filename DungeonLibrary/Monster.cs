@@ -47,13 +47,27 @@ namespace DungeonLibrary
             return new Random().Next(MinDamage, MaxDamage + 1);
         }
 
-        public static Monster GetMonster()
+        public static Monster GetBossMonster(byte monsterNumber)
+        {
+            switch (monsterNumber)
+            {
+                case 1: 
+                    return new ("Shelob", 70, 8, 30, 5, 1, "A GIANT spider...She's fast and stealthy but vulerable.");
+                case 2:
+                    return new("The Knight King", 70, 5, 50, 10, 4, "He's powerful but...anyone made of ice is bound to be a bit slow.");
+                case 3:
+                    return new("Atlas", 70, 4, 60, 20, 5, "He's Giant!.....but very slow.");
+                case 4:
+                    return new("Smaug", 70, 9, 50, 15, 1, "The last great dragon.");
+                default:
+                    return new("Shelob", 70, 8, 30, 5, 1, "A GIANT spider...She's fast and stealthy but vulerable.");//Shelob will be the default should it be needed.
+            }
+        }
+        
+        public static Monster GetBabyMonster()
         {
             //Create a variety of monsters
-            Monster m1 = new("Atlas", 70, 4, 60, 20, 5, "He's Giant!.....but very slow.");
-            Monster m2 = new("Shelob", 70, 8, 30, 5, 1, "A GIANT spider...She's fast and stealthy but vulerable.");
-            Monster m3 = new("The Knight King", 70, 5, 50, 10, 4, "He's powerful but...anyone made of ice is bound to be a bit slow.");
-            Monster m4 = new("Smaug", 70, 9, 50, 15, 1, "The last great dragon.");
+
             BabySpider m5 = new();
             BabyDragon m6 = new();
             WhiteWalker m7 = new();
@@ -62,14 +76,10 @@ namespace DungeonLibrary
 
             List<Monster> monsters = new()
             {
-                m1,
-                m2, //4 times the chance of showing up
-                m3,
-                m4,
-                m5,m5,m5,m5,
-                m6,m6,m6,m6,
-                m7,m7,m7,m7,
-                m8,m8,m8,m8
+                m5,
+                m6,
+                m7,
+                m8
             };
 
             return monsters[new Random().Next(monsters.Count)];
