@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace DungeonLibrary
 {
-    public enum WeaponType
+    public enum Inventory
     {
         Sword,
         Bow_Arrow,
         War_Hammer,
         Crossbow,
         Katana,
-        Spear
+        Spear,
+        Shield,
     }
 }

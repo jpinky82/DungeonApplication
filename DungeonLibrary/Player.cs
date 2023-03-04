@@ -16,14 +16,27 @@ namespace DungeonLibrary
         string description = "";
         public Race PlayerRace { get; set; }
         public Weapon EquippedWeapon { get; set; }
+        public Shield PlayerShield { get; set; }
+        public int Gold { get; set; }
+        public byte Potions { get; set; }
+        public byte Score { get; set; }
+        public byte RedKey { get; set; }
+        public byte GreenKey { get; set; }
+
 
         //CTORS/Construstors
-        
-        public Player(string name, int hitChance, int block, int maxLife, Race playerRace, Weapon equippedWeapon) : base(name, hitChance, block, maxLife)
+
+        public Player(string name, int hitChance, int block, int maxLife, Race playerRace, Weapon equippedWeapon, Shield playerShield,int gold, byte potions, byte score, byte redKey, byte greenKey) : base(name, hitChance, block, maxLife)
         {
             
             PlayerRace = playerRace;
             EquippedWeapon = equippedWeapon;
+            Gold = gold;
+            PlayerShield = playerShield;
+            Potions = potions;
+            Score = score;
+            RedKey = redKey;
+            GreenKey = greenKey;
 
             #region Potential Expansion - Racial Bonuses
             switch (PlayerRace)
@@ -58,7 +71,7 @@ namespace DungeonLibrary
             //create a string, switch on Player Race and
             //write some description about that race
             
-            return $"Race: {PlayerRace}\n{base.ToString()}\n{description}\n\nWeapon Info:\n{EquippedWeapon}";
+            return $"Race: {PlayerRace}\n{base.ToString()}\n{description}\n{PlayerShield}\nCurrent Score: {Score}\n\nWeapon Info:\n{EquippedWeapon}";
 
         }
         public override int CalcDamage()
@@ -81,17 +94,17 @@ namespace DungeonLibrary
             switch (uChoice)
             {
                 case 'c':
-                    return new(name, 65, 9, 50, Race.Centaur, userWeapon);
+                    return new(name, 65, 9, 50, Race.Centaur, userWeapon, Shield.GetShield(), 0, 0, 0,0,0);
                 case 'h':
-                    return new(name, 70, 5, 40, Race.Human, userWeapon);
+                    return new(name, 70, 5, 40, Race.Human, userWeapon, Shield.GetShield(), 0, 0, 0,0,0);
                 case 'e':
-                    return new(name, 75, 7, 40, Race.Elf, userWeapon);
+                    return new(name, 75, 7, 40, Race.Elf, userWeapon, Shield.GetShield(), 0, 0, 0,0,0);
                 case 'd':
-                    return new(name, 65, 10, 50, Race.Dwarf, userWeapon);
+                    return new(name, 65, 10, 50, Race.Dwarf, userWeapon, Shield.GetShield(), 0, 0, 0,0,0);
                 case 'g':
-                    return new(name, 60, 5, 30, Race.Gnome, userWeapon);
+                    return new(name, 60, 5, 30, Race.Gnome, userWeapon, Shield.GetShield(), 0, 0, 0,0,0);
                 default:
-                    return new(name, 70, 5, 40, Race.Human, userWeapon);
+                    return new(name, 70, 5, 40, Race.Human, userWeapon, Shield.GetShield(), 0, 0, 0,0,0);
             }
         }
     }
