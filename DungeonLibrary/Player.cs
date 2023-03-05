@@ -81,7 +81,8 @@ namespace DungeonLibrary
             switch (uChoice)
             {
                 case 'c':
-                    return new(name, 65, 9, 50, Race.Centaur, userWeapon);
+                    //return new(name, 65, 9, 50, Race.Centaur, userWeapon, Shield.GetShield(), 0, 0, 0,0,0);
+                    return new(name, 100, 9, 100, Race.Centaur, userWeapon, Shield.GetShield(), 0, 0, 0,0,0);
                 case 'h':
                     return new(name, 70, 5, 40, Race.Human, userWeapon);
                 case 'e':
