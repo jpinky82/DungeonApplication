@@ -767,6 +767,8 @@ namespace Dungeon
                         "M) Monster Info\n" +
                         "E) Exit\n");
 
+
+
                     Console.WriteLine($"{userName}'s Health: {userPlayer.Life} of {userPlayer.MaxLife}  " +
                                       $"{monster.Name}'s Health: {monster.Life} of {monster.MaxLife}");
 
@@ -1126,6 +1128,9 @@ namespace Dungeon
             }
             #endregion
         }//end Main()
+
+
+
 
 
         public static string GrantAccess(int greenKey, int redKey, string doorName)
