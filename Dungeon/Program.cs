@@ -201,7 +201,7 @@ namespace Dungeon
                                                       "Which door do you choose? (L/R)");
                                         ConsoleKey userChoice = Console.ReadKey(true).Key;
 
-
+                                        
                                         if (userChoice == ConsoleKey.R)
                                         {
                                             currentLevel = 3;
