@@ -17,6 +17,7 @@ namespace Dungeon
     {
         static void Main(string[] args)
         {
+            Console.SetWindowSize(110, 40);
             #region Opening Welcome Screen
 
             #region Dragon pic
@@ -142,7 +143,7 @@ namespace Dungeon
             
             #region Story Intro
             Console.Clear();
-            Console.WriteLine("In a far off land known as LandyMcLandia there was the small town of TownyMcTowntown. Both of which were named after an overwhelming, and unfortunate, youth turnout in the Great Renaming Vote of 1272....You can still hear the elders in the saloon going on and on about the disaster....Anyway...\n\nLandyMcLandia is a magical land full of a variety of different species. They all, somehow, speak the same language and get along fairly well despite the occasional grievance. On the outskirts of town lived an extremely wealthy scientist, Dr. Agon.  He kept to himself mostly but had been seen in town on occassion gathering strange supplies for an experiment.\n\nThe rumors about Dr. Agon experimenting on other animals started 2 years ago. Public opinion swayed drastically against the doctor at that point and, after being openly pressed on the matter by the Mayor, he wasn't seen in town again.\n\nA little over a month ago, a group of teenagers wondered on to the property. In front of what looks like some kind of dungeon door that leads underground, they found the body of Dr.Agon with a puncture wound through the abdomin. After 2 officers of The Peace entered the dungeon and never came out, Mayor Amy Stake has decided to put a call out to all the land.\n\nTo anyone willing to enter the dugeon on the Dr. Agon estate, anything of financial significance on the property will be yours as long as what lies inside is destroyed. The citizens of TownyMcTowntown deserve to feel safe in their homes, WE NEED A HERO!\n\n");
+            Console.WriteLine("In a far off land known as LandyMcLandia there was the small town of TownyMcTowntown. Both of which were named\nafter an overwhelming, and unfortunate, youth turnout in the Great Renaming Vote of 1272....You can still\nhear the elders in the saloon going on and on about the disaster....Anyway...\n\nLandyMcLandia is a magical land full of a variety of different species. They all, somehow, speak the same\nlanguage and get along fairly well despite the occasional grievance. On the outskirts of town lived an\nextremely wealthy scientist, Dr. Agon.  He kept to himself mostly but had been seen in town on occassion\ngathering strange supplies for an experiment.\n\nThe rumors about Dr. Agon experimenting on other animals started 2 years ago. Public opinion swayed\ndrastically against the doctor at that point and, after being openly pressed on the matter by the Mayor,\nhe wasn't seen in town again.\n\nA little over a month ago, a group of teenagers wondered on to the property. In front of what looks like some\nkind of dungeon door that leads underground, they found the body of Dr.Agon with a puncture wound through\nthe abdomin. After 2 officers of The Peace entered the dungeon and never came out, Mayor Amy Stake has\ndecided to put a call out to all the land.\n\nTo anyone willing to enter the dugeon on the Dr. Agon estate, anything of financial significance on the\nproperty will be yours as long as what lies inside is destroyed. The citizens of TownyMcTowntown deserve to\nfeel safe in their homes, WE NEED A HERO!\n\n");
             Console.WriteLine($"{userName}...YOU...ARE...THAT...HERO!");
             Console.Write("\nPress any key to continue. ");
             Console.ReadKey();
@@ -153,7 +154,7 @@ namespace Dungeon
             ////TODO Try Console.BufferWidth Property to fix the word wrap issue.  May not work with the for loop above. 
 
 
-            Console.WriteLine($"Shortly after arriving in TownyMcTowntown, the Mayor wastes no time and leads you to the dungeon door.  She pats you on the back and exclaims, \"Good Luck!!\" and swiftly scurries off.  You pull out your {userWeapon.Name}, open the door, and walk through. The Door shuts behind you.\n\nPress any key to continue.");
+            Console.WriteLine($"Shortly after arriving in TownyMcTowntown, the Mayor wastes no time and leads you to the dungeon door.\nShe pats you on the back and exclaims, \"Good Luck!!\" and swiftly scurries off.  You pull out your\n{userWeapon.Name}, open the door, and walk through. The Door shuts behind you.\n\nPress any key to continue.");
             Console.ReadKey();
             Console.Clear();
 
@@ -220,13 +221,23 @@ namespace Dungeon
                     //If player runs away during battle, they will get sent back to the previous room.
                     if (reload && playerRan)
                     {
-                        currentLevel = previousLevel;
-                        //TODO - Figure out why the ternary is not working.  In level 2, it is giving me the first reponse
-                        Console.WriteLine($"What's the matter {userName}....Chicken??\n");
-                        Console.WriteLine(runnerRoom == 1 ? "The entrance door is locked!" : "You manage to make it back to the previous room");
-                        Console.WriteLine("\n\nPress any key to continue");
-                        Console.ReadKey();
-                        Console.Clear();
+                        if (runnerRoom == 1 && previousLevel == 1)
+                        {
+                            Console.WriteLine("You Ran back out the entrance!!");
+                            Console.WriteLine("\n\nPress any key to continue");
+                            Console.ReadKey();
+                            Console.Clear();
+                            levelSelectExit = true;
+                            gameExit = true;
+                        }
+                        else
+                        {
+                            currentLevel = previousLevel;
+                            Console.WriteLine("You manage to make it back to the previous room");
+                            Console.WriteLine("\n\nPress any key to continue");
+                            Console.ReadKey();
+                            Console.Clear();
+                        } 
                     }
                     reload = false;
                     playerRan = false;
@@ -240,8 +251,8 @@ namespace Dungeon
                             //A baby monster is also dropped in on repeated visits.
                             case 1:
                                 if (runnerRoom == 1)//dials back the number of visits if a player ran from this room previously.
-                                                    //This way they can't run and come back to a defeated Boss Monster.
-                                {
+                                                    //This way they can't run from a boss monster and then come back to a defeated Boss Monster.
+                                {                   //If Statement is making sure if the this is the first time through this room, the counter stays at 1 if they run.
                                     if (room1.NumOfVisits != 1)
                                     {
                                         room1.NumOfVisits--;
@@ -266,33 +277,41 @@ namespace Dungeon
                                         Console.ForegroundColor = ConsoleColor.Green;
                                         Console.WriteLine("+1 Shield\n+1 Potion\n+600 Gold\n\n\n");
                                         Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                        Console.WriteLine("You stand over the dead spider terrified at what just happened.  You turn to walk out the door but a glimmer of gold catches your eye in the back of the room. The desire to leave instantly vanishes as you investigate and realized you just picked up a Healing Potion, Shield, and 600 gold coins!\n\n");
+                                        Console.WriteLine("You stand over the dead spider terrified at what just happened.  You turn to walk out the door but a glimmer\nof gold catches your eye in the back of the room. The desire to leave instantly vanishes as you investigate\nand realized you just picked up a Healing Potion, Shield, and 600 gold coins!\n\n");
 
-                                        Console.Write("As you're looking at the back wall, you have noticed there are 2 doors on your left and right.\n\n" +
-                                                      "Which door do you choose? (L/R)");
+                                        Console.Write("As you're looking at the back wall, you have 3 exits from this room.\n\nExit (Exits Game) behind you, Left, or Right.\n\n" +
+                                                      "Which direction do you choose? (L)eft, (R)ight, (Any) other key to exit");
                                         ConsoleKey userChoice = Console.ReadKey(true).Key;
+                                        Console.Clear();
 
-                                        
+                                        //User can decide which direction they want to go
                                         if (userChoice == ConsoleKey.R)
                                         {
-                                            previousLevel = currentLevel;
+                                            previousLevel = currentLevel;//Anytime the current level changes, it's set equal to the previousLevel in case a run occurs
                                             currentLevel = 3;
                                             Console.Clear();
                                             Console.WriteLine("You open the door to the right and walk through.\n");
                                         }
-                                        else
+                                        else if(userChoice == ConsoleKey.L)
                                         {
                                             previousLevel = currentLevel;
                                             currentLevel = 2;
                                             Console.Clear();
                                             Console.WriteLine("You open the door to the left and walk through.\n");
                                         }
+                                        else
+                                        {
+                                            levelSelectExit = true;
+                                            gameExit = true;
+                                        }
 
                                         room1.NumOfVisits++;
                                         break;
 
                                     case >= 3://On repeated entrances to the same room, odd number of visits will drop a baby monster.
-                                              //Even number will give the monster name the baby monster that was just defeated and an option for which door to go through next.
+                                              //Odd attempts will drop baby monster in the room, add to number of visits and then kick down to main menu
+                                              //for the battle.  After battle they come back to this level and will get "else"
+                                              //for a message about defeating the monster and ask which way to go next.
 
                                         if (room1.NumOfVisits % 2 != 0)
                                         {
@@ -306,8 +325,10 @@ namespace Dungeon
                                         else
                                         {
                                             Console.WriteLine($"After quickly disposing of {monster.Name}, you look around at your exits.\n\n" +
-                                                              $"You are back in the main hallway where you first entered the dungeon.  Looking at the back wall, you can exit the dungeon by turning around and walking out the entrance (ending your game) or there's a door to your left and one to your right.");
-                                            Console.Write("Which direction do you choose?  (E)xit, (L)eft, or (R)ight");
+                                                              "You are back in the main hallway where you first entered the dungeon.\n" +
+                                                              "Looking at the back wall, you can exit the dungeon by turning around and walking out the entrance\n" +
+                                                              "(ending your game) or there's a door to your left and one to your right.\n");
+                                            Console.Write("Which direction do you choose?  (L)eft, (R)ight, (Any) other key to exit");
                                             ConsoleKey userRm1Choice = Console.ReadKey(true).Key;
                                             if (userRm1Choice == ConsoleKey.R)
                                             {
@@ -335,18 +356,17 @@ namespace Dungeon
                                 break;
 
                             case 2:
-                                if (runnerRoom == 2)
+                                if (runnerRoom == 2)//There is only 1 door in rooms 1, 3, and 7 so the player is automatically leaving after they enter and fight a monster.
                                 {
                                     if (room2.NumOfVisits != 1)
                                     {
                                         room2.NumOfVisits--;
                                     }
                                     runnerRoom = 0;
-                                    //TODO - Add this if statement to all other cases as soon as you figure out whats going on with the ternary issue at the top
                                 }
                                 switch (room2.NumOfVisits)
                                 {
-                                    case <= 2:
+                                    case <= 2://Rooms 2,3, and 5 Do not have boss Monsters but will get 2 baby monsters back to back.
                                         levelSelectExit = true;
                                         monster = Monster.GetBabyMonster();
                                         if (room2.NumOfVisits == 1)
@@ -361,7 +381,7 @@ namespace Dungeon
                                         room2.NumOfVisits++;
                                         break;
                                     case 3:
-                                        userPlayer.GreenKey++;
+                                        userPlayer.GreenKey++;//Room 2 has the green key
                                         userPlayer.Gold += 400;
                                         previousLevel = currentLevel;
                                         currentLevel--;
@@ -401,7 +421,10 @@ namespace Dungeon
                             case 3:
                                 if (runnerRoom == 3)
                                 {
-                                    room3.NumOfVisits--;
+                                    if (room3.NumOfVisits != 1)
+                                    {
+                                        room3.NumOfVisits--;
+                                    }
                                     runnerRoom = 0;
                                 }
                                 switch (room3.NumOfVisits)
@@ -431,23 +454,25 @@ namespace Dungeon
                                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                                         Console.WriteLine("In this room you find a Healing Potion and a giant mound of 800 GOLD COINS!\n\n");
 
-                                        Console.Write("As you look back at the door you came in, you can head straight through that door (back to the Main Hallway)\n" +
-                                                      "OR go deeper into the dungeon by going through the door on your right.\n" +
-                                                      "Which door do you choose?  Press S to go straight or any other key to go right.");
+                                        Console.Write("You have 2 doors in this Room, You can go back to the Main Hallway or deeper into the dungeon.\n\n" +
+                                                      "Which direction do you choose?  (D)eeper (Any) other key to go back\n");
                                         ConsoleKey userChoice = Console.ReadKey(true).Key;
-                                        if (userChoice == ConsoleKey.S)
+                                        if (userChoice == ConsoleKey.D)
                                         {
                                             previousLevel = currentLevel;
-                                            currentLevel = 1;
+                                            currentLevel++;
+                                            Console.WriteLine("\nYou open the door to go deeper into the dungeon.\n\nPress Any Key to Continue");
+                                            Console.ReadKey();
                                             Console.Clear();
-                                            Console.WriteLine("You open the door straight ahead and walk through.\n");
                                         }
                                         else
                                         {
                                             previousLevel = currentLevel;
-                                            currentLevel++;
+                                            currentLevel = 1;
+                                            Console.WriteLine("You open the door back to the main hallway.\n\nPress Any Key to Continue");
+                                            Console.ReadKey();
                                             Console.Clear();
-                                            Console.WriteLine("You open the door to the right and walk through.\n");
+
                                         }
                                         break;
                                     case >= 4:
@@ -462,21 +487,24 @@ namespace Dungeon
                                         else
                                         {
                                             room3.NumOfVisits++;
-                                            Console.WriteLine($"After handling {monster.Name}, you look around and there are 2 doors.  1 heads back out to the Main Hallway(exit) and one leads deeper into the dungeon.\nWhich door do you choose?  Press D to go deeper or any other key to go towards the exit.");
+                                            Console.WriteLine($"After handling {monster.Name}, you look around and there are 2 doors.  1 heads back out to the Main Hallway(exit) and one leads deeper into the dungeon.\n\n" +
+                                                "Which direction do you choose?  (D)eeper (Any) other key to go back\n");
                                             ConsoleKey userRm3Choice = Console.ReadKey(true).Key;
                                             if (userRm3Choice == ConsoleKey.D)
                                             {
                                                 previousLevel = currentLevel;
                                                 currentLevel++;
+                                                Console.WriteLine("\nYou open the door to go deeper into the dungeon.\n\nPress Any Key to Continue");
+                                                Console.ReadKey();
                                                 Console.Clear();
-                                                Console.WriteLine("You open the door to go deeper into the dungeon and walk through.\n");
                                             }
                                             else
                                             {
                                                 previousLevel = currentLevel;
                                                 currentLevel -= 2;
+                                                Console.WriteLine("You open the door back to the main hallway.\n\nPress Any Key to Continue");
+                                                Console.ReadKey();
                                                 Console.Clear();
-                                                Console.WriteLine("You open the door to the the Main Hallway and walk through.\n");
                                             }
                                             break;
                                         }
@@ -487,7 +515,10 @@ namespace Dungeon
                             case 4:
                                 if (runnerRoom == 4)
                                 {
-                                    room4.NumOfVisits--;
+                                    if (room4.NumOfVisits != 1)
+                                    {
+                                        room4.NumOfVisits--;
+                                    }
                                     runnerRoom = 0;
                                 }
                                 switch (room4.NumOfVisits)
@@ -501,31 +532,37 @@ namespace Dungeon
 
                                     case 2:
                                         userPlayer.PlayerShield.Count++;
+                                        userPlayer.Potions++;
                                         userPlayer.Gold += 1200;
 
                                         Console.Clear();
                                         Console.ForegroundColor = ConsoleColor.Green;
-                                        Console.WriteLine("+1 Shield\n+600 Gold\n\n\n");
+                                        Console.WriteLine("+1 Shield\n+1 Healing Potion\n+600 Gold\n\n\n");
                                         Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                        Console.WriteLine("He just shattered into a thousand pieces! You also hear a loud roar coming from deeper in the dugeon.\nWhile investinging the room you find 1200 gold coins and another shield in a far corner!");
+                                        Console.WriteLine("He just shattered into a thousand pieces!\n" +
+                                            "You also hear a loud roar coming from deeper in the dugeon which is a little unsettling.\n\n" +
+                                            "While investinging the room you find 1200 gold coins and another shield in a far corner!\n");
 
-                                        Console.Write("While deciding which route to take next, you end up standing in front of the 2, side by side, " +
-                                            "doors in the middle of the room.You notice that the door to the right is green!\n" +
-                                            "You can turn around and walk back through the door you just came through (towards the exit)" +
-                                            " or choose the left or right door leading deeper into the dungeon.\nWhich door do you choose?\n");
-                                        Console.Write("Press (L) for the left door, (R) for the right (green) door, or any other key for the exit: ");
+                                        Console.Write("While deciding which route to take next, you end up standing in front of the 2, side by side doors\n" +
+                                            "in the middle of the room.You notice that the door to the right is green!\n\n" +
+                                            "You can turn around and walk back through the door you just came through (towards the exit)\n" +
+                                            "or choose the left or right door leading deeper into the dungeon.\n\n");
+
+                                        Console.Write("Which direction do you choose?  (L)eft, (R)ight, (Any) other key to exit");
+
                                         ConsoleKey userChoice = Console.ReadKey(true).Key;
                                         switch (userChoice)
                                         {
                                             case ConsoleKey.L:
                                                 previousLevel = currentLevel;
                                                 currentLevel++;
+                                                Console.WriteLine("\n\nYou open the door to the left and walk through.\n\nPress Any key to Continue.");
+                                                Console.ReadKey();
                                                 Console.Clear();
-                                                Console.WriteLine("You open the door to the left and walk through.\n");
                                                 break;
                                             case ConsoleKey.R:
                                                 Console.Clear();
-                                                Console.WriteLine("You walk up to the green door on the right and notice that it's locked!\n");
+                                                Console.WriteLine("\n\nYou walk up to the green door on the right and notice that it's locked!\n");
 
                                                 Console.WriteLine(GrantAccess(userPlayer.GreenKey, userPlayer.RedKey, "green"));
                                                 if (userPlayer.GreenKey > 0)
@@ -546,8 +583,9 @@ namespace Dungeon
                                             default:
                                                 previousLevel = currentLevel;
                                                 currentLevel--;
+                                                Console.WriteLine("You open the door behind you and and head towards the exit.\n\nPress Any key to Continue.");
+                                                Console.ReadKey();
                                                 Console.Clear();
-                                                Console.WriteLine("You open the door behind you and and head towards the exit.\n");
                                                 break;
                                         }
                                         room4.NumOfVisits++;
@@ -569,15 +607,16 @@ namespace Dungeon
                                             Console.WriteLine($"After quickly disposing of {monster.Name}, you look around at your exits.\n\n" +
                                                               $"You stand in front of the 2 side by side doors leading further into the dungeon.\n" +
                                                               $"You can go in to the left door  or right(green) door or through the door behind you towards the exit\n\n");
-                                            Console.Write("Press (L) for the left door, (R) for the right door, or any other key for the exit: ");
+                                            Console.Write("Which direction do you choose?  (L)eft, (R)ight, (Any) other key to exit");
                                             ConsoleKey userRm4Choice = Console.ReadKey(true).Key;
                                             switch (userRm4Choice)
                                             {
                                                 case ConsoleKey.L:
                                                     previousLevel = currentLevel;
                                                     currentLevel++;
+                                                    Console.WriteLine("You open the door to the left and walk through.\n\nPress any key to Continue.");
+                                                    Console.ReadKey();
                                                     Console.Clear();
-                                                    Console.WriteLine("You open the door to the left and walk through.\n");
                                                     break;
                                                 case ConsoleKey.R:
                                                     Console.Clear();
@@ -585,6 +624,8 @@ namespace Dungeon
                                                                                        "You open the green door to the right and walk through");
                                                     if (room6.IsLocked)
                                                     {
+                                                        //I was going to have a similar set up for responses whether or not the player picked up the right key for 
+                                                        //the green door and red door so I created a method to grab the responses.
                                                         Console.WriteLine(GrantAccess(userPlayer.GreenKey, userPlayer.RedKey, "green"));
 
                                                         if (userPlayer.GreenKey > 0)
@@ -611,8 +652,9 @@ namespace Dungeon
                                                 default:
                                                     previousLevel = currentLevel;
                                                     currentLevel--;
+                                                    Console.WriteLine("You open the door behind you and and head towards the exit.\n\nPress any key to Continue");
+                                                    Console.ReadKey();
                                                     Console.Clear();
-                                                    Console.WriteLine("You open the door behind you and and head towards the exit.\n");
                                                     break;
                                             }
                                             room4.NumOfVisits++;
@@ -624,7 +666,10 @@ namespace Dungeon
                             case 5:
                                 if (runnerRoom == 5)
                                 {
-                                    room5.NumOfVisits--;
+                                    if (room5.NumOfVisits != 1)
+                                    {
+                                        room5.NumOfVisits--;
+                                    }
                                     runnerRoom = 0;
                                 }
                                 switch (room5.NumOfVisits)
@@ -653,7 +698,9 @@ namespace Dungeon
                                         Console.ForegroundColor = ConsoleColor.Green;
                                         Console.WriteLine("+1 Red Key\n+400 Gold\n\n\n");
                                         Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                        Console.WriteLine($"After both monsters are cleared out, you find another strange looking key but this time it's red. You also find 400 more gold coins!\n You're getting rich off this endeavor, you already have {userPlayer.Gold} gold coins!\n");
+                                        Console.WriteLine("After both monsters are cleared out, you find another strange looking key but this time it's red\n" +
+                                                          "You also find 400 more gold coins!\n" +
+                                                          $"You're getting rich off this endeavor, you already have {userPlayer.Gold} gold coins!\n");
 
                                         Console.Write("You clear out the room and head back through the door.\nPress any key to continue.");
                                         Console.ReadKey();
@@ -684,7 +731,10 @@ namespace Dungeon
                             case 6:
                                 if (runnerRoom == 6)
                                 {
-                                    room6.NumOfVisits--;
+                                    if (room6.NumOfVisits != 1)
+                                    {
+                                        room6.NumOfVisits--;
+                                    }
                                     runnerRoom = 0;
                                 }
                                 switch (room6.NumOfVisits)
@@ -706,22 +756,18 @@ namespace Dungeon
                                         Console.ForegroundColor = ConsoleColor.Green;
                                         Console.WriteLine("+2 Shields\n+1 Potion\n+10000 Gold\n\n\n");
                                         Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                        Console.WriteLine("After a tough fight wit Atlas, you walk to the back wall and see the biggest treasure yet!  " +
-                                            "10,000 gold, 2 shields, and a potion!\nThere's another door going deeper into the dungeon and you can't help but wonder," +
-                                            "What comes after Atlas??  How much treasure is behind that door?\n\n");
+                                        Console.WriteLine("After a tough fight wit Atlas, you walk to the back wall and see the biggest treasure yet!\n" +
+                                            "10,000 gold, 2 shields, and a potion!\n" +
+                                            "There's another door going deeper into the dungeon and you can't help but wonder,\n" +
+                                            "What comes after Atlas?? How much treasure is behind that door?\n\n");
 
-                                        Console.Write("There are 2 ways out of this cavern, forward or back.  The door ahead is red!\nWhich way will you go?\n");
-                                        Console.Write("Press (F) for forward towards the red door or (B) to go back towards the exit: ");
+                                        Console.Write("There are 2 ways out of this cavern.\n " +
+                                            "The door ahead is red, it takes you deeper into the dungeon or you can back the way you came in.\n\n");
+                                        Console.WriteLine("Which direction do you choose?  (D)eeper (Any) other key to go back\n");
                                         ConsoleKey userChoice = Console.ReadKey(true).Key;
                                         switch (userChoice)
                                         {
-                                            case ConsoleKey.B:
-                                                previousLevel = currentLevel;
-                                                currentLevel -= 2;
-                                                Console.Clear();
-                                                Console.WriteLine("You open the door behind you and and head towards the exit.\n");
-                                                break;
-                                            case ConsoleKey.F:
+                                            case ConsoleKey.D:
                                                 Console.Clear();
                                                 Console.WriteLine("You walk up to the red door and notice that it's locked!\n");
 
@@ -743,8 +789,7 @@ namespace Dungeon
                                             default:
                                                 previousLevel = currentLevel;
                                                 currentLevel -= 2;
-                                                Console.Clear();
-                                                Console.WriteLine("You open the door behind you and and head towards the exit.\n");
+                                                Console.WriteLine("You open the door behind you and and head towards the exit.\n\n");
                                                 break;
                                         }
                                         Console.WriteLine("Press any key to continue.");
@@ -768,17 +813,11 @@ namespace Dungeon
                                             Console.WriteLine($"After quickly disposing of {monster.Name}, you look around at your exits.\n\n" +
                                                               $"There are 2, the door in the back leads deeper into the dungeon or there is the door" +
                                                               $"that leads back towards the exit.\n\n");
-                                            Console.Write("Press (F) to go forward, (B) to go back towards the exit ");
+                                            Console.Write("Which direction do you choose?  (D)eeper (Any) other key to go back\n");
                                             ConsoleKey userRm6Choice = Console.ReadKey(true).Key;
                                             switch (userRm6Choice)
                                             {
-                                                case ConsoleKey.B:
-                                                    previousLevel = currentLevel;
-                                                    currentLevel -= 2;
-                                                    Console.Clear();
-                                                    Console.WriteLine("You turn towards the exit.\n");
-                                                    break;
-                                                case ConsoleKey.F:
+                                                case ConsoleKey.D:
                                                     Console.Clear();
                                                     Console.WriteLine(room7.IsLocked ? "You walk up to the red door notice that it's locked!\n" :
                                                                                        "You open the red door and walk through\n");
@@ -808,8 +847,9 @@ namespace Dungeon
                                                 default:
                                                     previousLevel = currentLevel;
                                                     currentLevel -= 2;
+                                                    Console.WriteLine("You open the door behind you and and head towards the exit.\n\nPress Any key to continue");
+                                                    Console.ReadKey();
                                                     Console.Clear();
-                                                    Console.WriteLine("You open the door behind you and and head towards the exit.\n");
                                                     break;
                                             }
                                             Console.WriteLine("Press any key to continue.");
@@ -823,7 +863,10 @@ namespace Dungeon
                             case 7:
                                 if (runnerRoom == 7)
                                 {
-                                    room7.NumOfVisits--;
+                                    if (room7.NumOfVisits != 1)
+                                    {
+                                        room7.NumOfVisits--;
+                                    }
                                     runnerRoom = 0;
                                 }
                                 switch (room7.NumOfVisits)
@@ -844,9 +887,15 @@ namespace Dungeon
                                         Console.WriteLine("+1000000 Gold\n\n\n");
                                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                                         victory = true;
-                                        Console.WriteLine("After a long and tough fight with Smaug, you finally come out on top! You take a great deal of time to explore the large cave and find a stash of 1 MILLION GOLD! You also realize that there are no more doors, this was the end of the line!\nCongratulations, you have won!  The town of TownyMcTowntown will be overjoyed that this menace has been purged from existence!");
+                                        Console.WriteLine("After a long and tough fight with Smaug, you finally come out on top!\n" +
+                                            "You take a great deal of time to explore the large cave and find a stash of 1 MILLION GOLD!\n" +
+                                            "You also realize that there are no more doors, this was the end of the line!\n\n" +
+                                            "Congratulations, you have won!\n\n" +
+                                            "The town of TownyMcTowntown will be overjoyed that this menace has been purged from existence!\n");
 
-                                        Console.Write("There is only one way out of here!  You'll keep encountering baby monsters as you go room to room but I can't imagine they'll last too much longer without their larger adult monsters.\n");
+                                        Console.Write("There is only one way out of here!  You'll keep encountering baby monsters as you go room to room\n" +
+                                                      "but they wont last too much longer without their larger adult monsters.\n" +
+                                                      "You have a whole town ready to celebrate upon your exit!\n\n");
 
                                         room7.NumOfVisits++;
                                         previousLevel = currentLevel;
@@ -886,10 +935,8 @@ namespace Dungeon
                 } while (!levelSelectExit);
                 levelSelectExit = false;
 
-
-
-
-                //Console.WriteLine($"In the back corner of the room you hear a loud high pitched voice say, \"My name is {monster.Name}, who are you?\"");
+                //End of Dungeon Room Buildout
+                //Beginning of Gameplay Loop
 
                 #region Gameplay Menu Loop
                 while (!reload && !gameExit) //if either exit or reload is true, the inner loop will exit.
@@ -897,7 +944,7 @@ namespace Dungeon
                     //Gameplay Menu
                     #region Menu
 
-                    //Menu using Recursion Method "GetRecursiveMenu"  Sends in array and it's length.  Prints each item in the array to the console.
+                    //Menu using Recursion Method "GetRecursiveMenu"  Sends in array and it's length-1.  Prints each item in the array to the console.
 
                     string[] mainMenu = { "E) Exit", "M) Monster Info", "I) Inventory", "P) Player Info", "R) Run away", "A) Attack", "\n\nPlease choose an action: " };
                     int menuIndex = mainMenu.Length-1;
@@ -958,9 +1005,13 @@ namespace Dungeon
 
                         case ConsoleKey.P:
                             //Player info
+                            Console.Clear();
                             Console.WriteLine("Player Info: ");
                             Console.WriteLine(userPlayer);
                             Console.WriteLine($"Current Score: {userPlayer.Score}");
+                            Console.WriteLine("\n\nPress Any Key to Continue.");
+                            Console.ReadKey();
+                            Console.Clear();
                             break;
 
                         case ConsoleKey.I:
@@ -1275,12 +1326,12 @@ namespace Dungeon
 ");
                 #endregion
                 Console.WriteLine("Victory is yours!!\nYou have defeated all of the vile creatures of Dr. Agon's creation!\n");
-                Console.WriteLine("\nThe mayor of TownyMcTowntown give you a key to the city!\nThe people give you a hero's welcome and throw a ticker tape parade in your honor!\n");
-                Console.WriteLine($"The Dr. Agon Estate is now yours! You also came out of the dungeon with {userPlayer.Gold:d0} Gold Coins!");
+                Console.WriteLine("\nThe mayor of TownyMcTowntown gives you a key to the city!\nThe people give you a hero's welcome and throw a ticker tape parade in your honor!\n");
+                Console.WriteLine($"The Dr. Agon Estate is now yours! You also came out of the dungeon with {userPlayer.Gold:n0} Gold Coins!");
                 Console.WriteLine("You defeated " + userPlayer.Score + " monster" + (userPlayer.Score == 1 ? "." : "s."));
                 Console.WriteLine("\n\nYou live the rest of your days on that estate and become a World Renowned Monster Expert!\n\n\n");
             }
-            else if (!victory && userPlayer.Life != 0)
+            else if (!victory && userPlayer.Life > 0)
             {
                 #region Quitter! Ascii
                 Console.WriteLine(@"
@@ -1556,7 +1607,8 @@ _____________________  ___|                                     |               
         }
 
 
-        public static string GrantAccess(int greenKey, int redKey, string doorName)
+        public static string GrantAccess(int greenKey, int redKey, string doorName)//Gives response based on whether or not the
+                                                                                   //player has the green key, red key, both, or none.
         {
             if (doorName == "green")
             {

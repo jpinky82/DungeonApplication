@@ -28,7 +28,7 @@ namespace DungeonLibrary
 
         public override string ToString()
         {
-            return base.ToString() + $"**** SHIELD INFO ****\n" + (ShieldActive ? "A SHIELD IS CURRENTLY ENABLED!" : "No shield is currently enabled") +
+            return base.ToString() + (ShieldActive ? "A SHIELD IS CURRENTLY ENABLED!" : "No shield is currently enabled") +
                                      $"\nTotal Number Of Shields: {Count}\nAttacks left on Current Shield: " + (Count == 0 ? 0 : (10 - AttacksGiven));
 
         }
