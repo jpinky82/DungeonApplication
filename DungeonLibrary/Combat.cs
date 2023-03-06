@@ -26,12 +26,14 @@ namespace DungeonLibrary
                 //output our results.(you can do += to restore health after battle!)
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{attacker.Name} hit {defender.Name} for {damageDealt} damage!");
-                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
             }
             
             else//the attacker missed
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"{attacker.Name} missed!");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
             }
         }//end DoAttack
 

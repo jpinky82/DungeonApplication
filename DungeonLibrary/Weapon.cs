@@ -66,6 +66,12 @@ namespace DungeonLibrary
             Name = name;
             BonusHitChance = bonusHitChance;
             IsTwoHanded = isTwoHanded;
+
+            //Added bonus hit chance if weapon is two-handed.
+            if (IsTwoHanded)
+            {
+                BonusHitChance += 10;
+            }
         }
 
 
