@@ -35,7 +35,7 @@ namespace DungeonLibrary
             switch (rmNum)
             {
                 case 1:
-                    return new DungeonRoom(false, false, 1, "You're back in the Main Hallway where you first entered the dungeon and it wreaks of rotting spider.\n", "The Door shuts behind you. You're standing in a dimly lit hallway.  Multiple eyes suddenly appear in the darkness ahead. As the eyes get larger you see the outline of a large spider sprinting to attack!  What do you do?");
+                    return new DungeonRoom(false, false, 1, "You're back in the Main Hallway where you first entered the dungeon and it wreaks of rotting spider.\n", "You're standing in a dimly lit hallway.  Multiple eyes suddenly appear in the darkness ahead. As the eyes get larger you see the outline of a large spider sprinting to attack!  What do you do?");
                 case 2:
                     return new DungeonRoom(true, false, 1, "As you walk in, a monster runs toward you from the corner.  What do you do?", "This room is much smaller, the only exit is the door you just walked through.\nAs the door shuts a creature leaps at you! What do you do?");
                 case 3:

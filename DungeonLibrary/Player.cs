@@ -38,7 +38,7 @@ namespace DungeonLibrary
             RedKey = redKey;
             GreenKey = greenKey;
 
-            #region Potential Expansion - Racial Bonuses
+            #region Race Bonuses
             switch (PlayerRace)
             {
                 case Race.Centaur:

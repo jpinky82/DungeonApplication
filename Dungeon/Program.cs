@@ -1,8 +1,15 @@
 ﻿using DungeonLibrary;
 using System;
 using System.ComponentModel;
+using System.Diagnostics.Metrics;
 using System.Numerics;
+using System.Threading;
+using System.Xml;
+using static System.Collections.Specialized.BitVector32;
 using static System.Formats.Asn1.AsnWriter;
+
+
+//Ascii Text Art came from https://onlineasciitools.com/convert-text-to-ascii-art - Font name: small
 
 namespace Dungeon
 {
@@ -52,39 +59,72 @@ namespace Dungeon
             Console.ReadKey();
 
             Console.Clear();
-            //TODO get ascii text for "Name your Character
+            #region Name Character Ascii
+            Console.WriteLine(@"
+**************************************************************
+*   _  _                                                     *
+*  | \| |  __ _   _ __    ___     _  _   ___   _  _   _ _    *
+*  | .` | / _` | | '  \  / -_)   | || | / _ \ | || | | '_|   *
+*  |_|\_| \__,_| |_|_|_| \___|    \_, | \___/  \_,_| |_|     *
+*    ___   _                      |__/     _                 *
+*   / __| | |_    __ _   _ _   __ _   __  | |_   ___   _ _   *
+*  | (__  | ' \  / _` | | '_| / _` | / _| |  _| / -_) | '_|  *
+*   \___| |_||_| \__,_| |_|   \__,_| \__|  \__| \___| |_|    *
+*                                                            *
+**************************************************************
+");
+            #endregion
 
             #region Main Menu and Player Creation
 
-            Console.Write("Please give your character a name: ");
+            Console.Write("\nPlease give your character a name: ");
             string userName = Console.ReadLine().ToString();
 
-
             Console.Clear();
-            //TODO get ascii art text for this menu "Please Select a Race"
-
-
+            #region Choose Weapon Ascii
+            Console.WriteLine(@"
+**************************************************************
+*   ___   _                                                  *
+*  / __| | |_    ___   ___  ___     _  _   ___   _  _   _ _  *
+* | (__  | ' \  / _ \ (_-< / -_)   | || | / _ \ | || | | '_| *
+*  \___| |_||_| \___/ /__/ \___|    \_, | \___/  \_,_| |_|   *
+*       __      __                  |__/                     *
+*       \ \    / /  ___   __ _   _ __   ___   _ _            *
+*        \ \/\/ /  / -_) / _` | | '_ \ / _ \ | ' \           *
+*         \_/\_/   \___| \__,_| | .__/ \___/ |_||_|          *
+*                               |_|                          *               
+*                                                            *
+**************************************************************
+");
+            #endregion
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write("\n" +
-            "L) Long Sword\n" +
-            "B) Bow & Arrow\n" +
-            "W) War Hammer\n" +
-            "C) Crossbow\n" +
-            "K) Katana\n" +
-            "S) Spear\n\n");
+            Console.Write("L) Long Sword\n" +
+                          "B) Bow & Arrow\n" +
+                          "W) War Hammer\n" +
+                          "C) Crossbow\n" +
+                          "K) Katana\n" +
+                          "S) Spear\n\n");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("Please choose a weapon for your Weapon: ");
+            Console.Write("Please choose a Weapon: ");
 
             Weapon userWeapon = Weapon.GetWeapon(Console.ReadLine());
 
-
-            if (userWeapon.IsTwoHanded)
-            {
-                userWeapon.BonusHitChance += 10;
-            }
-
             Console.Clear();
-            //TODO Ascii art for "Select your race"
+            #region Select Race Ascii
+            Console.WriteLine(@"
+*****************************************************************
+*  ___         _              _      __   __                    *
+* / __|  ___  | |  ___   __  | |_    \ \ / /  ___   _  _   _ _  *
+* \__ \ / -_) | | / -_) / _| |  _|    \ V /  / _ \ | || | | '_| *
+* |___/ \___| |_| \___| \__|  \__|     |_|   \___/  \_,_| |_|   *
+*                   ___                                         *
+*                  | _ \  __ _   __   ___                       *
+*                  |   / / _` | / _| / -_)                      *
+*                  |_|_\ \__,_| \__| \___|                      *
+*                                                               *
+*****************************************************************
+");
+            #endregion
 
             Console.Write("\n" +
             "C) Centaur\n" +
@@ -99,10 +139,10 @@ namespace Dungeon
             Player userPlayer = Player.GetPlayerRace(rChoice, userName, userWeapon);
 
             #endregion
-
+            
             #region Story Intro
             Console.Clear();
-            Console.WriteLine("In a far off land known as LandyMcLandia there was the small town of TownyMcTowntown. Both of which were named after an overwhelming, and unfortunate, youth turnout in the Great Renaming Vote of 1272....You can still hear the elders in the saloon going on and on about the disaster....Anyway...\n\nLandyMcLandia is a magical land full of a variety of different species. They all, somehow, speak the same language and get along fairly well despite the occasional grievance. On the outskirts of town lived an extremely wealthy scientist, Dr. Agon.  He kept to himself mostly but had been seen in the town on occassion gathering strange supplies for an experiment.\n\nThe rumors about Dr. Agon experimenting on other animals started 2 years ago. Public opinion swayed drastically against the doctor at that point and, after being openly pressed on the matter by the Mayor, he wasn't seen in town again.\n\nA little over a month ago, a group of teenagers wondered on to the property. In front of what looks like some kind of dungeon door that leads underground, they found the body of Dr.Agon with a puncture wound through the abdomin. After 2 officers of The Peace entered the dungeon and never came out, Mayor Amy Stake has decided to put a call out to all the land.\n\nTo anyone willing to enter the dugeon on the Dr. Agon estate, anything of financial significance on the property will be yours as long as what lies inside is destroyed. The citizens of TownyMcTowntown deserve to feel safe in their homes, WE NEED A HERO!\n\n");
+            Console.WriteLine("In a far off land known as LandyMcLandia there was the small town of TownyMcTowntown. Both of which were named after an overwhelming, and unfortunate, youth turnout in the Great Renaming Vote of 1272....You can still hear the elders in the saloon going on and on about the disaster....Anyway...\n\nLandyMcLandia is a magical land full of a variety of different species. They all, somehow, speak the same language and get along fairly well despite the occasional grievance. On the outskirts of town lived an extremely wealthy scientist, Dr. Agon.  He kept to himself mostly but had been seen in town on occassion gathering strange supplies for an experiment.\n\nThe rumors about Dr. Agon experimenting on other animals started 2 years ago. Public opinion swayed drastically against the doctor at that point and, after being openly pressed on the matter by the Mayor, he wasn't seen in town again.\n\nA little over a month ago, a group of teenagers wondered on to the property. In front of what looks like some kind of dungeon door that leads underground, they found the body of Dr.Agon with a puncture wound through the abdomin. After 2 officers of The Peace entered the dungeon and never came out, Mayor Amy Stake has decided to put a call out to all the land.\n\nTo anyone willing to enter the dugeon on the Dr. Agon estate, anything of financial significance on the property will be yours as long as what lies inside is destroyed. The citizens of TownyMcTowntown deserve to feel safe in their homes, WE NEED A HERO!\n\n");
             Console.WriteLine($"{userName}...YOU...ARE...THAT...HERO!");
             Console.Write("\nPress any key to continue. ");
             Console.ReadKey();
@@ -113,7 +153,9 @@ namespace Dungeon
             ////TODO Try Console.BufferWidth Property to fix the word wrap issue.  May not work with the for loop above. 
 
 
-            Console.WriteLine($"Shortly after arriving in TownyMcTowntown, the Mayor wastes no time and leads you to the dungeon door.  She pats you on the back and exclaims, \"Good Luck!!\" and swiftly scurries off.  You open the door, walk through and close it behind you.  There is a long halway with 2 Doors on either side about halfway down. You pull your {userWeapon.Name} out and walk through the door on the left.");
+            Console.WriteLine($"Shortly after arriving in TownyMcTowntown, the Mayor wastes no time and leads you to the dungeon door.  She pats you on the back and exclaims, \"Good Luck!!\" and swiftly scurries off.  You pull out your {userWeapon.Name}, open the door, and walk through. The Door shuts behind you.\n\nPress any key to continue.");
+            Console.ReadKey();
+            Console.Clear();
 
 
             //Pre-Loading Dungeon Rooms
@@ -132,12 +174,42 @@ namespace Dungeon
             //Variable to keeps score and bool to exit the Level Select DoWhile, bool to Exit the Game, and bool to reload when player chooses to run.
             bool gameExit = false;
             bool playerRan = false;
-            byte currentLevel = 1;
+            int previousLevel = 1;
+            int currentLevel = 1;
             bool levelSelectExit = false;
             bool reload = false;
             bool victory = false;
+            int runnerRoom = 0;
 
             //Player can exit game in 1 of 3 ways. run from a Monster in room 1, Select exit from the Gameplay Menu, or Complete the Game.
+            //Below is a detailed map where w/Room Numbers and where keys can be found.
+            #region Map With Room Numbers & Other Details
+
+
+            //                                               Dungeon Map
+            //                                                                 ______________________________________________
+            //                _____________________                           |                                              |
+            //               |          |          |                          |                                              |
+            //               |          |          |                          |                                              |
+            //               |  Rm. 2   |          |_______                   |                                              |
+            //               |          |          |       |                  |                                              |
+            //_______________|_____  |__|          | Rm. 5 |                  |                                              |
+            //                          |           ___    |                  |                                              |
+            //             Rm. 1        | Rm. 4    |_______|__________________|                                              |
+            //                          |          |___                       |                                              |
+            //_____________________  ___|             <-Requires Green Key    |                                              |
+            //               |       |  |          |    Found in Rm. 2        |        Rm. 7                                 |
+            //               |          |          |                          |                                              |
+            //               |  Rm. 3   |          |        Rm. 6              ___<---- Requires Red Key                     |
+            //               |           ___       |                          |         Found in Room 5                      |
+            //               |__________|__________|__________________________|                                              |
+            //                                                                |                                              |
+            //                                                                |                                              |
+            //            Openings are approximate door locations             |                                              |
+            //        Map can also be accesses In-Game through Inventory      |                                              |
+            //                                                                |                                              |
+            //                                                                |______________________________________________|
+            #endregion
 
             do
             {
@@ -148,23 +220,13 @@ namespace Dungeon
                     //If player runs away during battle, they will get sent back to the previous room.
                     if (reload && playerRan)
                     {
-                        if (currentLevel == 6 || currentLevel == 3)
-                        {
-                            currentLevel -= 2;
-                        }
-                        else if (currentLevel == 1)
-                        {
-                            gameExit = true;
-                        }
-                        else
-                        {
-                            currentLevel--;
-                        }
-                        reload = false;
-                        Console.Clear();
-                        Console.WriteLine($"\n\nWhat's the matter {userName}....Chicken??\nYou managed to make through the door");
-                        Console.WriteLine("Press any key to continue");
+                        currentLevel = previousLevel;
+                        //TODO - Figure out why the ternary is not working.  In level 2, it is giving me the first reponse
+                        Console.WriteLine($"What's the matter {userName}....Chicken??\n");
+                        Console.WriteLine(runnerRoom == 1 ? "The entrance door is locked!" : "You manage to make it back to the previous room");
+                        Console.WriteLine("\n\nPress any key to continue");
                         Console.ReadKey();
+                        Console.Clear();
                     }
                     reload = false;
                     playerRan = false;
@@ -177,9 +239,18 @@ namespace Dungeon
                             //Each Room has a switch case of it's own so each time a room is re-entered, it will be the same as when it was first left.
                             //A baby monster is also dropped in on repeated visits.
                             case 1:
+                                if (runnerRoom == 1)//dials back the number of visits if a player ran from this room previously.
+                                                    //This way they can't run and come back to a defeated Boss Monster.
+                                {
+                                    if (room1.NumOfVisits != 1)
+                                    {
+                                        room1.NumOfVisits--;
+                                    }
+                                    runnerRoom = 0;
+                                }
                                 switch (room1.NumOfVisits)
                                 {
-                                    case 1://First time through the room we drop in a Boss Monster
+                                    case 1://First time through rooms 1,4,6, & 7 we drop in a Boss Monster
                                         Console.WriteLine(room1.NotVisitedMessage);
                                         levelSelectExit = true;
                                         monster = Monster.GetBossMonster(1);
@@ -204,12 +275,14 @@ namespace Dungeon
                                         
                                         if (userChoice == ConsoleKey.R)
                                         {
+                                            previousLevel = currentLevel;
                                             currentLevel = 3;
                                             Console.Clear();
                                             Console.WriteLine("You open the door to the right and walk through.\n");
                                         }
                                         else
                                         {
+                                            previousLevel = currentLevel;
                                             currentLevel = 2;
                                             Console.Clear();
                                             Console.WriteLine("You open the door to the left and walk through.\n");
@@ -238,12 +311,14 @@ namespace Dungeon
                                             ConsoleKey userRm1Choice = Console.ReadKey(true).Key;
                                             if (userRm1Choice == ConsoleKey.R)
                                             {
+                                                previousLevel = currentLevel;
                                                 currentLevel = 3;
                                                 Console.Clear();
                                                 Console.WriteLine("You open the door to the right and walk through.\n");
                                             }
                                             else if (userRm1Choice == ConsoleKey.L)
                                             {
+                                                previousLevel = currentLevel;
                                                 currentLevel = 2;
                                                 Console.Clear();
                                                 Console.WriteLine("You open the door to the left and walk through.\n");
@@ -260,6 +335,15 @@ namespace Dungeon
                                 break;
 
                             case 2:
+                                if (runnerRoom == 2)
+                                {
+                                    if (room2.NumOfVisits != 1)
+                                    {
+                                        room2.NumOfVisits--;
+                                    }
+                                    runnerRoom = 0;
+                                    //TODO - Add this if statement to all other cases as soon as you figure out whats going on with the ternary issue at the top
+                                }
                                 switch (room2.NumOfVisits)
                                 {
                                     case <= 2:
@@ -279,6 +363,7 @@ namespace Dungeon
                                     case 3:
                                         userPlayer.GreenKey++;
                                         userPlayer.Gold += 400;
+                                        previousLevel = currentLevel;
                                         currentLevel--;
 
                                         Console.Clear();
@@ -302,6 +387,7 @@ namespace Dungeon
                                         }
                                         else
                                         {
+                                            previousLevel = currentLevel;
                                             currentLevel--;
                                             room2.NumOfVisits++;
                                             Console.WriteLine($"After quickly disposing of {monster.Name}, you look around the room realizing there is nothing else in here and quickly exit.\nPress any key to continue.");
@@ -313,6 +399,11 @@ namespace Dungeon
                                 break;
 
                             case 3:
+                                if (runnerRoom == 3)
+                                {
+                                    room3.NumOfVisits--;
+                                    runnerRoom = 0;
+                                }
                                 switch (room3.NumOfVisits)
                                 {
                                     case <= 2:
@@ -346,12 +437,14 @@ namespace Dungeon
                                         ConsoleKey userChoice = Console.ReadKey(true).Key;
                                         if (userChoice == ConsoleKey.S)
                                         {
+                                            previousLevel = currentLevel;
                                             currentLevel = 1;
                                             Console.Clear();
                                             Console.WriteLine("You open the door straight ahead and walk through.\n");
                                         }
                                         else
                                         {
+                                            previousLevel = currentLevel;
                                             currentLevel++;
                                             Console.Clear();
                                             Console.WriteLine("You open the door to the right and walk through.\n");
@@ -373,12 +466,14 @@ namespace Dungeon
                                             ConsoleKey userRm3Choice = Console.ReadKey(true).Key;
                                             if (userRm3Choice == ConsoleKey.D)
                                             {
+                                                previousLevel = currentLevel;
                                                 currentLevel++;
                                                 Console.Clear();
                                                 Console.WriteLine("You open the door to go deeper into the dungeon and walk through.\n");
                                             }
                                             else
                                             {
+                                                previousLevel = currentLevel;
                                                 currentLevel -= 2;
                                                 Console.Clear();
                                                 Console.WriteLine("You open the door to the the Main Hallway and walk through.\n");
@@ -390,6 +485,11 @@ namespace Dungeon
                                 break;
 
                             case 4:
+                                if (runnerRoom == 4)
+                                {
+                                    room4.NumOfVisits--;
+                                    runnerRoom = 0;
+                                }
                                 switch (room4.NumOfVisits)
                                 {
                                     case 1:
@@ -418,6 +518,7 @@ namespace Dungeon
                                         switch (userChoice)
                                         {
                                             case ConsoleKey.L:
+                                                previousLevel = currentLevel;
                                                 currentLevel++;
                                                 Console.Clear();
                                                 Console.WriteLine("You open the door to the left and walk through.\n");
@@ -430,17 +531,20 @@ namespace Dungeon
                                                 if (userPlayer.GreenKey > 0)
                                                 {
                                                     userPlayer.GreenKey -= 1;
+                                                    previousLevel = currentLevel;
                                                     currentLevel += 2;
                                                     room6.IsLocked = false;
                                                 }
                                                 else
                                                 {
+                                                    previousLevel = currentLevel;
                                                     currentLevel--;
                                                 }
                                                 Console.WriteLine("Press any key to continue.");
                                                 Console.ReadKey();
                                                 break;
                                             default:
+                                                previousLevel = currentLevel;
                                                 currentLevel--;
                                                 Console.Clear();
                                                 Console.WriteLine("You open the door behind you and and head towards the exit.\n");
@@ -470,6 +574,7 @@ namespace Dungeon
                                             switch (userRm4Choice)
                                             {
                                                 case ConsoleKey.L:
+                                                    previousLevel = currentLevel;
                                                     currentLevel++;
                                                     Console.Clear();
                                                     Console.WriteLine("You open the door to the left and walk through.\n");
@@ -485,22 +590,26 @@ namespace Dungeon
                                                         if (userPlayer.GreenKey > 0)
                                                         {
                                                             userPlayer.GreenKey -= 1;
+                                                            previousLevel = currentLevel;
                                                             currentLevel += 2;
                                                             room6.IsLocked = false;
                                                         }
                                                         else
                                                         {
+                                                            previousLevel = currentLevel;
                                                             currentLevel--;
                                                         }
                                                     }
                                                     else
                                                     {
+                                                        previousLevel = currentLevel;
                                                         currentLevel += 2;
                                                     }
                                                     Console.WriteLine("\nPress any key to continue.");
                                                     Console.ReadKey();
                                                     break;
                                                 default:
+                                                    previousLevel = currentLevel;
                                                     currentLevel--;
                                                     Console.Clear();
                                                     Console.WriteLine("You open the door behind you and and head towards the exit.\n");
@@ -513,6 +622,11 @@ namespace Dungeon
                                 break;
 
                             case 5:
+                                if (runnerRoom == 5)
+                                {
+                                    room5.NumOfVisits--;
+                                    runnerRoom = 0;
+                                }
                                 switch (room5.NumOfVisits)
                                 {
                                     case <= 2:
@@ -532,6 +646,7 @@ namespace Dungeon
                                     case 3:
                                         userPlayer.RedKey++;
                                         userPlayer.Gold += 400;
+                                        previousLevel = currentLevel;
                                         currentLevel--;
 
                                         Console.Clear();
@@ -555,6 +670,7 @@ namespace Dungeon
                                         }
                                         else
                                         {
+                                            previousLevel = currentLevel;
                                             currentLevel--;
                                             room5.NumOfVisits++;
                                             Console.WriteLine($"After quickly disposing of {monster.Name}, you look around to make sure no gold was left behind and head back out the door.\nPress any key to continue.");
@@ -566,6 +682,11 @@ namespace Dungeon
                                 break;
 
                             case 6:
+                                if (runnerRoom == 6)
+                                {
+                                    room6.NumOfVisits--;
+                                    runnerRoom = 0;
+                                }
                                 switch (room6.NumOfVisits)
                                 {
                                     case 1:
@@ -595,6 +716,7 @@ namespace Dungeon
                                         switch (userChoice)
                                         {
                                             case ConsoleKey.B:
+                                                previousLevel = currentLevel;
                                                 currentLevel -= 2;
                                                 Console.Clear();
                                                 Console.WriteLine("You open the door behind you and and head towards the exit.\n");
@@ -608,15 +730,18 @@ namespace Dungeon
                                                 if (userPlayer.RedKey > 0)
                                                 {
                                                     userPlayer.RedKey--;
+                                                    previousLevel = currentLevel;
                                                     currentLevel++;
                                                     room7.IsLocked = false;
                                                 }
                                                 else
                                                 {
+                                                    previousLevel = currentLevel;
                                                     currentLevel -= 2;
                                                 }
                                                 break;
                                             default:
+                                                previousLevel = currentLevel;
                                                 currentLevel -= 2;
                                                 Console.Clear();
                                                 Console.WriteLine("You open the door behind you and and head towards the exit.\n");
@@ -648,6 +773,7 @@ namespace Dungeon
                                             switch (userRm6Choice)
                                             {
                                                 case ConsoleKey.B:
+                                                    previousLevel = currentLevel;
                                                     currentLevel -= 2;
                                                     Console.Clear();
                                                     Console.WriteLine("You turn towards the exit.\n");
@@ -663,20 +789,24 @@ namespace Dungeon
                                                         if (userPlayer.RedKey > 0)
                                                         {
                                                             userPlayer.RedKey -= 1;
+                                                            previousLevel = currentLevel;
                                                             currentLevel++;
                                                             room7.IsLocked = false;
                                                         }
                                                         else
                                                         {
+                                                            previousLevel = currentLevel;
                                                             currentLevel -= 2;
                                                         }
                                                     }
                                                     else
                                                     {
+                                                        previousLevel = currentLevel;
                                                         currentLevel++;
                                                     }
                                                     break;
                                                 default:
+                                                    previousLevel = currentLevel;
                                                     currentLevel -= 2;
                                                     Console.Clear();
                                                     Console.WriteLine("You open the door behind you and and head towards the exit.\n");
@@ -691,6 +821,11 @@ namespace Dungeon
                                 break;
 
                             case 7:
+                                if (runnerRoom == 7)
+                                {
+                                    room7.NumOfVisits--;
+                                    runnerRoom = 0;
+                                }
                                 switch (room7.NumOfVisits)
                                 {
                                     case 1:
@@ -714,6 +849,7 @@ namespace Dungeon
                                         Console.Write("There is only one way out of here!  You'll keep encountering baby monsters as you go room to room but I can't imagine they'll last too much longer without their larger adult monsters.\n");
 
                                         room7.NumOfVisits++;
+                                        previousLevel = currentLevel;
                                         currentLevel--;
 
                                         Console.WriteLine("You head back through the door.\n");
@@ -736,6 +872,7 @@ namespace Dungeon
                                         else
                                         {
                                             Console.WriteLine($"After quickly disposing of {monster.Name}, you look around and head back out the door from where you came.\n\n");
+                                            previousLevel = currentLevel;
                                             currentLevel--;
                                             Console.WriteLine("Press any key to continue.");
                                             Console.ReadKey();
@@ -759,14 +896,13 @@ namespace Dungeon
                 {
                     //Gameplay Menu
                     #region Menu
-                    Console.Write("\nPlease choose an action:\n" +
-                        "A) Attack\n" +
-                        "R) Run away\n" +
-                        "P) Player Info\n" +
-                        "I) Inventory\n" +
-                        "M) Monster Info\n" +
-                        "E) Exit\n");
 
+                    //Menu using Recursion Method "GetRecursiveMenu"  Sends in array and it's length.  Prints each item in the array to the console.
+
+                    string[] mainMenu = { "E) Exit", "M) Monster Info", "I) Inventory", "P) Player Info", "R) Run away", "A) Attack", "\n\nPlease choose an action: " };
+                    int menuIndex = mainMenu.Length-1;
+
+                    Console.WriteLine(GetRecursiveMenu(mainMenu, menuIndex));
 
 
                     Console.WriteLine($"{userName}'s Health: {userPlayer.Life} of {userPlayer.MaxLife}  " +
@@ -787,7 +923,7 @@ namespace Dungeon
                                 //Combat rewards -> money, health, whatever
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.WriteLine($"\nYou killed {monster.Name}!");
-                                Console.ResetColor();
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
                                 //flip the inner-loop bool to true
                                 reload = true;
 
@@ -811,12 +947,13 @@ namespace Dungeon
                         case ConsoleKey.R:
                             //TODO Attack of Opportunity
                             Console.Clear();
-                            Console.WriteLine("You frantically jump to the door you just walked through!!");
+                            Console.WriteLine("You frantically jump to the door you just walked through!!\n\n");
                             Console.WriteLine($"{monster.Name} attacks you as you flee!");
                             Combat.DoAttack(monster, userPlayer);
-                            Console.WriteLine();//formatting
-                            reload = true;//new room, new monster
+                            Console.WriteLine();
+                            reload = true;
                             playerRan = true;
+                            runnerRoom = currentLevel;
                             break;
 
                         case ConsoleKey.P:
@@ -841,6 +978,7 @@ namespace Dungeon
                                 "S) Spear\n" +
                                 "H) Healing Potion\n" +
                                 "D) Shield\n" +
+                                "M) Map\n" +
                                 "E) Exit Inventory\n");
                                 Console.Write("Please choose an item from your inventory: ");
 
@@ -1072,7 +1210,12 @@ namespace Dungeon
                                         Console.ReadKey();
                                         #endregion
                                         break;
-
+                                    case ConsoleKey.M:
+                                        Console.Clear();
+                                        Console.WriteLine(GetMap(currentLevel));
+                                        Console.Write("\n\nPress any key to Continue: ");
+                                        Console.ReadKey();
+                                        break;
                                     case ConsoleKey.E:
                                         exitInventory = true;
                                         Console.Clear();
@@ -1094,10 +1237,20 @@ namespace Dungeon
                             break;
                     }//end switch
                     #endregion
-                    //TODO Check player life
+                    // Check player life
                     if (userPlayer.Life <= 0)
                     {
-                        //TODO You died ascii art.
+                        #region You Died Ascii
+                        Console.WriteLine(@"
+*****************************************************************
+*      __   __                 ___    _            _   _        *
+*      \ \ / /  ___   _  _    |   \  (_)  ___   __| | | |       *
+*       \ V /  / _ \ | || |   | |) | | | / -_) / _` | |_|       *
+*        |_|   \___/  \_,_|   |___/  |_| \___| \__,_| (_)       *
+*                                                               *
+*****************************************************************
+");
+                        #endregion
                         Console.WriteLine("You died a valient death fighting the good fight!\a");
                         Console.WriteLine("\nThe people of TownyMcTowntown will always remember your sacrifice.");
                         gameExit = true;
@@ -1110,7 +1263,17 @@ namespace Dungeon
             if (victory)
             {
                 Console.Clear();
-                //TODO Victory Ascii Art
+                #region You Died Ascii
+                Console.WriteLine(@"
+******************************************************************
+* __   __  ___    ___   _____    ___    ___  __   __  _   _   _  *
+* \ \ / / |_ _|  / __| |_   _|  / _ \  | _ \ \ \ / / | | | | | | *
+*  \ V /   | |  | (__    | |   | (_) | |   /  \ V /  |_| |_| |_| *
+*   \_/   |___|  \___|   |_|    \___/  |_|_\   |_|   (_) (_) (_) *
+*                                                                *
+******************************************************************
+");
+                #endregion
                 Console.WriteLine("Victory is yours!!\nYou have defeated all of the vile creatures of Dr. Agon's creation!\n");
                 Console.WriteLine("\nThe mayor of TownyMcTowntown give you a key to the city!\nThe people give you a hero's welcome and throw a ticker tape parade in your honor!\n");
                 Console.WriteLine($"The Dr. Agon Estate is now yours! You also came out of the dungeon with {userPlayer.Gold:d0} Gold Coins!");
@@ -1119,7 +1282,22 @@ namespace Dungeon
             }
             else if (!victory && userPlayer.Life != 0)
             {
-                //TODO Quitter Ascii Art.
+                #region Quitter! Ascii
+                Console.WriteLine(@"
+*******************************************************************
+*      __   __   ___    _   _   _   ___   ___       _             *
+*      \ \ / /  / _ \  | | | | ( ) | _ \ | __|     /_\            *
+*       \ V /  | (_) | | |_| | |/  |   / | _|     / _ \           *
+*        |_|    \___/   \___/      |_|_\ |___|   /_/ \_\          *
+*                                                                 *
+*        ___    _   _   ___   _____   _____   ___   ___   _       *
+*       / _ \  | | | | |_ _| |_   _| |_   _| | __| | _ \ | |      *
+*      | (_) | | |_| |  | |    | |     | |   | _|  |   / |_|      *
+*       \__\_\  \___/  |___|   |_|     |_|   |___| |_|_\ (_)      *
+*                                                                 *
+*******************************************************************
+");
+                #endregion
                 Console.WriteLine("You quit.......you just quit.\n\nThe great people of TownyMcTowntown hear the news and a mob forms, " +
                                   "they chase you from the area with torches and pitchforks vowing you'll die if you ever return!\n\n" +
                                   "You live out the rest of your days in squaler thinking about what life could have been if you weren't such a chicken.\n");
@@ -1129,8 +1307,253 @@ namespace Dungeon
             #endregion
         }//end Main()
 
+        private static string GetRecursiveMenu(string[] menu, int counter)
+        {
+            
+            if (counter == 0)
+            {
+
+                return menu[counter];
+            }
+            else
+            {
+                Console.WriteLine(menu[counter]);
+                return GetRecursiveMenu(menu, counter-1);
+            }
+        }
 
 
+        public static string GetMap(int currentLevel)
+        {
+            switch (currentLevel)
+            {
+                
+                case 1:
+                    #region Level1
+                    return @"
+
+                                               Dungeon Map
+                                                                 ______________________________________________
+                _____________________                           |                                              |
+               |          |          |                          |                                              |
+               |          |          |                          |                                              |
+               |          |          |_______                   |                                              |
+               |          |          |       |                  |                                              |
+_______________|_____  |__|          |       |                  |                                              |
+                          |           ___    |                  |                                              |
+                 X        |          |_______|__________________|                                              |
+                          |          |___                       |                                              |
+_____________________  ___|                                     |                                              |
+               |       |  |          |                          |                                              |
+               |          |          |                          |                                              |
+               |          |          |                           ___                                           |
+               |           ___       |                          |                                              |
+               |__________|__________|__________________________|                                              |
+                                                                |                                              |
+                                                                |                                              |
+            Openings are approximate door locations             |                                              |
+                                                                |                                              |
+              Caution: Some doors may be locked!                |                                              |
+                    X: Shows Player approximate position        |______________________________________________|";
+                #endregion
+                case 2:
+                    #region Level2
+                    return @"
+
+                                               Dungeon Map
+                                                                 ______________________________________________
+                _____________________                           |                                              |
+               |          |          |                          |                                              |
+               |          |          |                          |                                              |
+               |    X     |          |_______                   |                                              |
+               |          |          |       |                  |                                              |
+_______________|_____  |__|          |       |                  |                                              |
+                          |           ___    |                  |                                              |
+                          |          |_______|__________________|                                              |
+                          |          |___                       |                                              |
+_____________________  ___|                                     |                                              |
+               |       |  |          |                          |                                              |
+               |          |          |                          |                                              |
+               |          |          |                           ___                                           |
+               |           ___       |                          |                                              |
+               |__________|__________|__________________________|                                              |
+                                                                |                                              |
+                                                                |                                              |
+            Openings are approximate door locations             |                                              |
+                                                                |                                              |
+              Caution: Some doors may be locked!                |                                              |
+                    X: Shows Player approximate position        |______________________________________________|";
+                #endregion
+                case 3:
+                    #region Level3
+                    return @"
+
+                                               Dungeon Map
+                                                                 ______________________________________________
+                _____________________                           |                                              |
+               |          |          |                          |                                              |
+               |          |          |                          |                                              |
+               |          |          |_______                   |                                              |
+               |          |          |       |                  |                                              |
+_______________|_____  |__|          |       |                  |                                              |
+                          |           ___    |                  |                                              |
+                          |          |_______|__________________|                                              |
+                          |          |___                       |                                              |
+_____________________  ___|                                     |                                              |
+               |       |  |          |                          |                                              |
+               |          |          |                          |                                              |
+               |   X      |          |                           ___                                           |
+               |           ___       |                          |                                              |
+               |__________|__________|__________________________|                                              |
+                                                                |                                              |
+                                                                |                                              |
+            Openings are approximate door locations             |                                              |
+                                                                |                                              |
+              Caution: Some doors may be locked!                |                                              |
+                    X: Shows Player approximate position        |______________________________________________|";
+                #endregion
+                case 4:
+                    #region Level4
+                    return @"
+
+                                               Dungeon Map
+                                                                 ______________________________________________
+                _____________________                           |                                              |
+               |          |          |                          |                                              |
+               |          |          |                          |                                              |
+               |          |          |_______                   |                                              |
+               |          |          |       |                  |                                              |
+_______________|_____  |__|          |       |                  |                                              |
+                          |           ___    |                  |                                              |
+                          |          |_______|__________________|                                              |
+                          |    X     |___                       |                                              |
+_____________________  ___|                                     |                                              |
+               |       |  |          |                          |                                              |
+               |          |          |                          |                                              |
+               |          |          |                           ___                                           |
+               |           ___       |                          |                                              |
+               |__________|__________|__________________________|                                              |
+                                                                |                                              |
+                                                                |                                              |
+            Openings are approximate door locations             |                                              |
+                                                                |                                              |
+              Caution: Some doors may be locked!                |                                              |
+                    X: Shows Player approximate position        |______________________________________________|";
+                #endregion
+                case 5:
+                    #region Level5
+                    return @"
+
+                                               Dungeon Map
+                                                                 ______________________________________________
+                _____________________                           |                                              |
+               |          |          |                          |                                              |
+               |          |          |                          |                                              |
+               |          |          |_______                   |                                              |
+               |          |          |       |                  |                                              |
+_______________|_____  |__|          |   X   |                  |                                              |
+                          |           ___    |                  |                                              |
+                          |          |_______|__________________|                                              |
+                          |          |___                       |                                              |
+_____________________  ___|                                     |                                              |
+               |       |  |          |                          |                                              |
+               |          |          |                          |                                              |
+               |          |          |                           ___                                           |
+               |           ___       |                          |                                              |
+               |__________|__________|__________________________|                                              |
+                                                                |                                              |
+                                                                |                                              |
+            Openings are approximate door locations             |                                              |
+                                                                |                                              |
+              Caution: Some doors may be locked!                |                                              |
+                    X: Shows Player approximate position        |______________________________________________|";
+                #endregion
+                case 6:
+                    #region Level6
+                    return @"
+
+                                               Dungeon Map
+                                                                 ______________________________________________
+                _____________________                           |                                              |
+               |          |          |                          |                                              |
+               |          |          |                          |                                              |
+               |          |          |_______                   |                                              |
+               |          |          |       |                  |                                              |
+_______________|_____  |__|          |       |                  |                                              |
+                          |           ___    |                  |                                              |
+                          |          |_______|__________________|                                              |
+                          |          |___                       |                                              |
+_____________________  ___|                                     |                                              |
+               |       |  |          |                          |                                              |
+               |          |          |      X                   |                                              |
+               |          |          |                           ___                                           |
+               |           ___       |                          |                                              |
+               |__________|__________|__________________________|                                              |
+                                                                |                                              |
+                                                                |                                              |
+            Openings are approximate door locations             |                                              |
+                                                                |                                              |
+              Caution: Some doors may be locked!                |                                              |
+                    X: Shows Player approximate position        |______________________________________________|";
+                #endregion
+                case 7:
+                    #region Level7
+                    return @"
+
+                                               Dungeon Map
+                                                                 ______________________________________________
+                _____________________                           |                                              |
+               |          |          |                          |                                              |
+               |          |          |                          |                                              |
+               |          |          |_______                   |                                              |
+               |          |          |       |                  |                                              |
+_______________|_____  |__|          |       |                  |                                              |
+                          |           ___    |                  |                                              |
+                          |          |_______|__________________|                                              |
+                          |          |___                       |                                              |
+_____________________  ___|                                     |                                              |
+               |       |  |          |                          |         X                                    |
+               |          |          |                          |                                              |
+               |          |          |                           ___                                           |
+               |           ___       |                          |                                              |
+               |__________|__________|__________________________|                                              |
+                                                                |                                              |
+                                                                |                                              |
+            Openings are approximate door locations             |                                              |
+                                                                |                                              |
+              Caution: Some doors may be locked!                |                                              |
+                    X: Shows Player approximate position        |______________________________________________|";
+                #endregion
+                default:
+                    #region Default
+                    return @"
+
+                                               Dungeon Map
+                                                                 ______________________________________________
+                _____________________                           |                                              |
+               |          |          |                          |                                              |
+               |          |          |                          |                                              |
+               |          |          |_______                   |                                              |
+               |          |          |       |                  |                                              |
+_______________|_____  |__|          |       |                  |                                              |
+                          |           ___    |                  |                                              |
+                          |          |_______|__________________|                                              |
+                          |          |___                       |                                              |
+_____________________  ___|                                     |                                              |
+               |       |  |          |                          |                                              |
+               |          |          |                          |                                              |
+               |          |          |                           ___                                           |
+               |           ___       |                          |                                              |
+               |__________|__________|__________________________|                                              |
+                                                                |                                              |
+                                                                |                                              |
+            Openings are approximate door locations             |                                              |
+                                                                |                                              |
+              Caution: Some doors may be locked!                |                                              |
+                                                                |______________________________________________|";
+                    #endregion
+            }
+        }
 
 
         public static string GrantAccess(int greenKey, int redKey, string doorName)
